@@ -4,37 +4,34 @@
 % Diese Formulierungen hängen dynamisch von Eingaben ab
 % https://www.ctan.org/pkg/luacode
 \usepackage{luacode}
+\LuaCodeDebugOn
 \begin{luacode}
 
   function anrede(form)
-  -- Anrede bei "Herr..." oder "Frau..." ändern
+    -- Anrede bei "Herr..." oder "Frau..." ändern
     if form:find("^Frau") then form = "Sehr geehrte "..form  end
     if form:find("^Herr") then form = "Sehr geehrter "..form end
-  -- Sonst genauso übernehmen
+    -- Sonst genauso übernehmen
     tex.sprint( form )
   end
 
   function patient(anrede)
-  form = "Patient"
-  -- Form bei "Frau..." ändern
-  if anrede:find("^Frau") then form = "Patientin" end
-  tex.sprint(form)
+    form = "Patient"
+    -- Form bei "Frau..." ändern
+    if anrede:find("^Frau") then form = "Patientin" end
+    tex.sprint(form)
   end
 
   function einleitung(Arzt, Datum_Verordnung, Diagnose)
-    if string.len(Diagnose) > 3 then
-     DiagnoseEinschub = " mit Diagnose: & " .. Diagnose .. " ";
-    else
-      DiagnoseEinschub = "";
-    end
-
     if string.len(Arzt) > 3 and string.len(Datum_Verordnung) > 3 then
       line = ""
       line = line .. "aufgrund der Verordnung von " .. Arzt .. "\\medskip \\\\"
       line = line .. "\\begin{tabularx}{\\textwidth}{lX}"
       line = line .. "vom: & " .. Datum_Verordnung .. "\\\\"
-      line = line .. DiagnoseEinschub
-      line = line .. "\\end{tabularx}  \\medskip  \\\\"
+      if string.len(Diagnose) > 3 then
+        line = line .. "mit Diagnose: & " .. Diagnose
+      end
+      line = line .. "\\end{tabularx}  \\smallskip  \\\\"
       line = line .. "erlaube ich mir folgende Leistungen in Rechnung zu stellen:"
     else
       line = "ich erlaube mir folgende Leistungen in Rechnung zu stellen:"
