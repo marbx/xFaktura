@@ -191,9 +191,21 @@ erlaube ich mir folgende Leistungen in Rechnung zu stellen:"""
 
 
     import platform
-    tmpdir = '/tmp/'
+    tmpdir = '/tmp/spreadsheet-invoice/'
     if platform.system() == 'Windows':
-        tmpdir = 'C:\\tmp\\'
+        tmpdir = 'C:\\Windows\\temp\\spreadsheet-invoice\\'
+
+    # https://csatlas.com/python-create-directory
+    import os
+    import sys
+    if sys.version_info[1] > 4 or (sys.version_info[1] == 4 and sys.version_info[1] >= 1):
+        os.makedirs(tmpdir, exist_ok=True )
+    else:
+        try:
+            os.makedirs(tmpdir)
+        except OSError:
+            if not os.path.isdir(tmpdir):
+                raise
 
     Basisname_der_Datei = f'Praxis1-Rechnung-{Rechnungsnummer}-{Nachname}'
     pdfdatei =          Basisname_der_Datei + '.pdf'
@@ -209,25 +221,22 @@ erlaube ich mir folgende Leistungen in Rechnung zu stellen:"""
     if platform.system() == 'Darwin':
         pdfbinary = '/Library/TeX/texbin/lualatex'   # TODO GIBT ES DAS???????
     else:
-        pdfbinary = 'latex'
         pdfbinary = 'lualatex'
     #print(f'{pdfbinary} --interaction=nonstopmode -output-directory={tmpdir} -output-format=dvi {texdatei}')
-    #print(f'{pdfbinary} --interaction=nonstopmode -output-directory={tmpdir} {texdatei}')
     
     p = subprocess.run([ pdfbinary, '--interaction=nonstopmode', '-output-directory='+tmpdir, '-output-format=dvi', texdatei ], capture_output=True)
-    #p = subprocess.run([ pdfbinary, '--interaction=nonstopmode', '-output-directory='+tmpdir, texdatei ], capture_output=True)
-    print( f'{Basisname_der_Datei}  latex {p.returncode}', end='')
+    print( f'{Basisname_der_Datei:<40}     dvi {p.returncode}', end='')
     if p.returncode == 0:
         if platform.system() == 'Darwin':
             pdfbinary2 = '/Library/TeX/texbin/dvipdfmx'
         else:
             pdfbinary2 = 'dvipdfmx'
         pdf_process = subprocess.run([ pdfbinary2, '-o', pdfdatei, dvidatei ], capture_output=True)
-        print( f'  pdf {pdf_process.returncode}')
+        print( f'   pdf {pdf_process.returncode}')
         lösche_datei(dvidatei)
         lösche_datei(auxdatei)
-        lösche_datei(logdatei)
-        lösche_datei(texdatei)
+        #lösche_datei(logdatei)
+        #lösche_datei(texdatei)
     else:
         print('')
 
