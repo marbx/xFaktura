@@ -1,0 +1,123 @@
+
+\documentclass[a4paper,12pt]{letter}
+\usepackage{luacode}
+
+\begin{luacode}
+  function anrede ( form )
+  -- Anrede bei "Herr..." oder "Frau..." ändern
+    if form:find ( "^Frau" ) then  form = "Sehr geehrte "..form  end
+    if form:find ( "^Herr" ) then  form = "Sehr geehrter "..form end
+  -- Sonst genauso übernehmen
+    tex.sprint ( form )
+  end
+  \end{luacode}
+  \newcommand\anrede[1]{\directlua{anrede(\luastring{#1})}}
+  
+
+%\usepackage{showframe}       % Show the margins
+
+%%%% Absätze mit 2 Leerenzeilen machen
+%%%% Zeilenende mit \\ machen
+%%%% Am Ende des Absatz ist \\ unnötig und verursacht eine Warnung 
+
+%% Seitenränder ANFANG
+%%%%%%%% Zum Nachschlagen
+% https://texblog.org/2012/08/29/changing-the-font-size-in-latex/
+% https://tex.stackexchange.com/questions/193964/how-to-increase-the-width-of-the-page-used-by-my-text
+% https://en.wikibooks.org/wiki/LaTeX/Page_Layout#Page_dimensions
+%%%%%%%%%%%%%%%%%%
+\addtolength{\oddsidemargin}{-22mm}
+\addtolength{\evensidemargin}{-22mm}
+\addtolength{\textwidth}{33mm}
+
+\addtolength{\headsep}{-5mm}
+\addtolength{\textheight}{15mm}
+
+\addtolength{\topmargin}{-28mm}
+\addtolength{\headheight}{33mm}
+%% Seitenränder ENDE
+
+\setlength{\parindent}{0pt}        % Kein Einzug
+\setlength{\arrayrulewidth}{0.5\arrayrulewidth}   % schmale Linie
+
+
+\usepackage[ngerman]{babel}
+\usepackage{tabularx}
+\usepackage{soulutf8}
+
+%%%%%%% Soul macht Wortabstand: between letters / between words / outside words 
+\sodef\soulA{}{0.12em}{0.40em}{0.11em}
+\sodef\soulB{}{0.40em}{0.80em}{0.11em}
+\sodef\soulC{}{0.50em}{0.95em}{0.11em}
+
+\usepackage{helvet} \renewcommand*\familydefault{\sfdefault}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\renewcommand{\familydefault}{\sfdefault}
+
+
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhf{}
+\fancyhead{}
+\fancyhead[R]{
+  \begin{tabular}{p{75mm} c}
+  & {\Large \color{orange}   \soulC{Praxis1}                   } \medskip \vspace{2mm}   \\
+  & {\large                          \soulB{Inhaber}                       }  \medskip \\
+  &                                     \soulA{Berufsbezeichnung}                       \medskip \\
+  &                                     \soulA{Tel: *********}                  \medskip \\
+  &                                     \soulA{************}   
+  \end{tabular}
+}
+\fancyfoot{}
+\fancyfoot[C]{
+  \footnotesize
+  {\color{orange} \soulA{Praxis1}}
+  \soulA{ $\cdot$ Praxis1 $\cdot$ Inhaber}\\
+  \soulA{Bank $\cdot$ IBAN: DE** **** **** **** **** ** $\cdot$ Steuernummer:~***/***/****}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Dokument
+\begin{document}
+
+\vspace{2mm}
+
+{\scriptsize {\color{orange} Praxis1} $\cdot$ Straße $\cdot$  **** *******}\\
+VORNAME NACHNAME\\
+STRAßE\medskip\\
+STADT
+
+\vspace{18mm}
+
+\begin{tabular}{p{60mm}ll}
+  \textbf{RECHNUNG} 
+  & Rechnungsnummer: & RECHNUNGSNUMMER   \medskip\\
+  & Rechnungsdatum:    & RECHNUNGSDATUM     \medskip\\
+  & PATIENT:                 & VORNAME NACHNAME
+\end{tabular}
+
+\vspace{8mm}
+
+ANREDE NACHNAME,\medskip\\
+EINLEITUNG
+
+\begin{center}
+\begin{tabular}{r l r r}
+  \textbf{Anzahl} & \textbf{Art der Behandlung} & \textbf{Einzelpreis} & \textbf{Gesamtpreis}\\
+  \hline
+ANZAHL & BEHANDLUNG & EINZELPREIS\,€ & GESAMTPREIS\,€ \\
+  \\
+  \hline
+  &  \multicolumn{2}{r}{\textbf{Rechnungsbetrag}} &  \textbf{RECHNUNGSBETRAG}\,€ \\
+  & \multicolumn{3}{r}{{\scriptsize Umsatzsteuerfreie Leistung nach §4 Nr. 14 Buchst. a) UStG}}
+\end{tabular}
+\end{center}
+Behandlungstermine: BEHANDLUNGSTERMINE.
+
+\vspace{10mm}
+
+Bitte überweisen Sie den oben genannten Betrag
+unter Angabe der Rechnungsnummer innerhalb der nächsten drei Wochen auf das unten genannte Konto.
+
+\end{document}

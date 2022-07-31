@@ -1,0 +1,22 @@
+\documentclass{article}
+\usepackage{luacode}
+
+\begin{luacode}
+function anrede ( form )
+-- Anrede bei "Herr..." oder "Frau..." ändern
+  if form:find ( "^Frau" ) then  form = "Sehr geehrte "..form  end
+  if form:find ( "^Herr" ) then  form = "Sehr geehrter "..form end
+-- Sonst genauso übernehmen
+  tex.sprint ( form )
+end
+\end{luacode}
+\newcommand\anrede[1]{\directlua{anrede(\luastring{#1})}}
+
+\begin{document}
+\obeylines
+\anrede{Herr} 777777777
+\anrede{Herr Dr.} oadjsad.
+\anrede{Frau} aslfdkj
+\anrede{Hallo} Ccc.
+
+\end{document} 

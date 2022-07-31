@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage{luacode}
+\begin{luacode}
+
+function transform ( s )
+  if s:find ( "^[Mm]y" ) then
+    s = s:gsub  ( "^.-[%s:]+(.*)" , "\\textbf{%1}")
+  elseif s:find ( "^.-[%s:]+" ) then
+    s = s:gsub  ( "^.-[%s:]+(.*)" , "\\textit{%1}") 
+  else
+    s = "\\textit{"..s.."}"
+  end
+  tex.sprint ( s )
+end
+
+\end{luacode}
+\newcommand\transform[1]{\directlua{transform(\luastring{#1})}}
+
+\begin{document}
+\obeylines
+\transform{my:big world}   should return \textbf{big world}.
+\transform{my   big world} should return \textbf{big world}.
+\transform{my: big world}  should return \textbf{big world}.
+
+\smallskip
+\transform{My:big world}   should return \textbf{big world}.
+\transform{My   big world} should return \textbf{big world}.
+\transform{My: big world}  should return \textbf{big world}.
+
+\smallskip
+\transform{our:big world}   should return \textit{big world}.
+\transform{our big world}   should return \textit{big world}.
+\transform{our:  big world} should return \textit{big world}.
+
+\smallskip
+\transform{world} should return \textit{world}
+\end{document} 

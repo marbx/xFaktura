@@ -1,0 +1,8 @@
+missfont.log
+texlive.profile
+install-tl*
+install-tl-unx.tar
+test*.aux
+test*.log
+.venv/
+Praxis1-Rechnung-20*.pdf
