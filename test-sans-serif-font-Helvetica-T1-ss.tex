@@ -1,0 +1,25 @@
+
+% https://tex.stackexchange.com/questions/641889/german-umlauts-are-ok-but-%C3%9F-appears-as-ss
+% Helvetica is a T1 font and breaks ß
+
+\documentclass[12pt]{article}
+\usepackage[scaled]{helvet}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\renewcommand\familydefault{\sfdefault}
+\begin{document}
+\obeylines
+
+
+Anne Sch
+
+Busch Straße äöü.
+Busch Stra{\ss}e äöü.
+
+Default ist sans-serif
+\textrm{textrm ist roman}
+\textsf{textrm ist wieder sans-serif}
+
+
+  \end{document}

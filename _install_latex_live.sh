@@ -34,6 +34,7 @@ sudo tlmgr install soul
 sudo tlmgr install xcolor
 sudo tlmgr install luatexbase
 sudo tlmgr install luacode
+sudo tlmgr install fontspec
 
 ## install the required fonts
 sudo tlmgr install collection-fontsrecommended
