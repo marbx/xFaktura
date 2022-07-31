@@ -2,6 +2,7 @@
 \documentclass[a4paper,12pt]{letter}
 
 % Diese Formulierungen hängen dynamisch von Eingaben ab
+% https://www.ctan.org/pkg/luacode
 \usepackage{luacode}
 \begin{luacode}
 
@@ -20,16 +21,38 @@
   tex.sprint(form)
   end
 
+  function einleitung(Arzt, Datum_Verordnung, Diagnose)
+    if string.len(Diagnose) > 3 then
+     DiagnoseEinschub = " mit Diagnose: & " .. Diagnose .. " ";
+    else
+      DiagnoseEinschub = "";
+    end
+
+    if string.len(Arzt) > 3 and string.len(Datum_Verordnung) > 3 then
+      line = ""
+      line = line .. "aufgrund der Verordnung von " .. Arzt .. "\\medskip \\\\"
+      line = line .. "\\begin{tabularx}{\\textwidth}{lX}"
+      line = line .. "vom: & " .. Datum_Verordnung .. "\\\\"
+      line = line .. DiagnoseEinschub
+      line = line .. "\\end{tabularx}  \\medskip  \\\\"
+      line = line .. "erlaube ich mir folgende Leistungen in Rechnung zu stellen:"
+    else
+      line = "ich erlaube mir folgende Leistungen in Rechnung zu stellen:"
+    end
+    tex.sprint(line)
+
+  end
+
 \end{luacode}
 \newcommand\anrede[1]{\directlua{anrede(\luastring{#1})}}
 \newcommand\patient[1]{\directlua{patient(\luastring{#1})}}
-  
+\newcommand\einleitung[3]{\directlua{einleitung(\luastring{#1},\luastring{#2},\luastring{#3})}}
 
 %\usepackage{showframe}       % Show the margins
 
 %%%% Absätze mit 2 Leerenzeilen machen
 %%%% Zeilenende mit \\ machen
-%%%% Am Ende des Absatz ist \\ unnötig und verursacht eine Warnung 
+%%%% Am Ende des Absatz ist \\ unnötig und verursacht eine Warnung
 
 %% Seitenränder ANFANG
 %%%%%%%% Zum Nachschlagen
@@ -56,7 +79,7 @@
 \usepackage{tabularx}
 \usepackage{soulutf8}
 
-%%%%%%% Soul macht Wortabstand: between letters / between words / outside words 
+%%%%%%% Soul macht Wortabstand: between letters / between words / outside words
 \sodef\soulA{}{0.12em}{0.40em}{0.11em}
 \sodef\soulB{}{0.40em}{0.80em}{0.11em}
 \sodef\soulC{}{0.50em}{0.95em}{0.11em}
@@ -81,7 +104,7 @@
   & {\large                          \soulB{Inhaber}                       }  \medskip \\
   &                                     \soulA{Berufsbezeichnung}                       \medskip \\
   &                                     \soulA{Tel: *********}                  \medskip \\
-  &                                     \soulA{************}   
+  &                                     \soulA{************}
   \end{tabular}
 }
 \fancyfoot{}
@@ -105,7 +128,7 @@ STADT
 \vspace{18mm}
 
 \begin{tabular}{p{60mm}ll}
-  \textbf{RECHNUNG} 
+  \textbf{RECHNUNG}
   & Rechnungsnummer:   & RECHNUNGSNUMMER    \medskip\\
   & Rechnungsdatum:    & RECHNUNGSDATUM     \medskip\\
   & \patient{ANREDE}:  & VORNAME NACHNAME
@@ -114,7 +137,7 @@ STADT
 \vspace{8mm}
 
 \anrede{ANREDE} NACHNAME,\medskip\\
-EINLEITUNG
+\einleitung{ARZT}{DATUM_VERORDNUNG}{DIAGNOSE}
 
 \begin{center}
 \begin{tabular}{r l r r}

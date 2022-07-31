@@ -21,11 +21,24 @@ def format_datetime(datum_oder_text):
     elif type(datum_oder_text) == type(datetime.datetime.now()): return datum_oder_text.strftime('%d.%m.%Y')
     else: return str(datum_oder_text)
 
+def escape_latex_special_characters(in11):
+    out11 = in11
+    out11 = out11.replace('\\', '\\\\textbackslash')
+    out11 = out11.replace('~', '\\\\textasciitilde')
+    out11 = out11.replace('^', '\\\\textasciicircum')
+    out11 = out11.replace('{', '\\{')
+    out11 = out11.replace('}', '\\}')
+    out11 = out11.replace('&', '\\&')
+    out11 = out11.replace('%', '\\%')
+    out11 = out11.replace('$', '\\$')
+    out11 = out11.replace('#', '\\#')
+    out11 = out11.replace('_', '\\_')
+    return out11
 
 def format_text(text_oder_float_nan):
     # pandas gibt flot nan als Leere Zelle zurück
     if type(text_oder_float_nan) == type(None): return ''
-    elif type(text_oder_float_nan) == type(str()): return text_oder_float_nan.rstrip()
+    elif type(text_oder_float_nan) == type(str()): return escape_latex_special_characters(text_oder_float_nan.rstrip())
     elif type(text_oder_float_nan) == type(1.0):
         if np.isnan(text_oder_float_nan):
             return ''
@@ -50,7 +63,7 @@ try:
 
     for rechnr in Rechnungsnummern:
         if not re.match('^20\d\d-\d\d\d$', rechnr):
-            write_error(f'{rechnr} auf dem Blatt Behandlugnen hat nicht das Format 20##-###')
+            write_error(f'Die Rechnungsnummer {rechnr} auf dem Blatt Behandlungen hat nicht das Format 20##-###')
 except KeyError as exc:
     write_error(f'In Excel fehlt das Blatt oder die Spalte {exc}')
 
@@ -91,23 +104,6 @@ def Diese_Rechnung(Rechnungsnummer):
         Arzt             = format_text(rechnung_df['Arzt'].item())
         Datum_Rechnung   = format_datetime(rechnung_df['Datum Rechnung'].item())
         Datum_Verordnung = format_datetime(rechnung_df['Datum Verordnung'].item())
-
-        if len(Diagnose) > 3:
-            DiagnoseEinschub = f" mit Diagnose: & {Diagnose} "
-        else:
-            DiagnoseEinschub = ""
-
-        if len(Arzt) > 3 and len(Datum_Verordnung) > 3:
-            Einleitung = fr"""aufgrund der Verordnung von {Arzt} \medskip \\
-\begin{{tabularx}}{{\textwidth}}{{lX}}
-%\begin{{tabular}}{{ll}}
-vom: & {Datum_Verordnung} \\
-{DiagnoseEinschub}
-%\end{{tabular}}
-\end{{tabularx}}  \medskip  \\
-erlaube ich mir folgende Leistungen in Rechnung zu stellen:"""
-        else:
-            Einleitung = """ich erlaube mir folgende Leistungen in Rechnung zu stellen:"""
 
         # Suche Behandlungsarten
         Behandlungsarten = []
@@ -168,12 +164,14 @@ erlaube ich mir folgende Leistungen in Rechnung zu stellen:"""
             #         ANZAHL & BEHANDLUNG & EINZELPREIS\,€ & GESAMTPREIS\,€ \\
             line = re.sub(r'\bRECHNUNGSNUMMER\b', Rechnungsnummer, line)
             line = re.sub(r'\bRECHNUNGSDATUM\b', Datum_Rechnung, line)
+            line = re.sub(r'\bDATUM_VERORDNUNG\b', Datum_Verordnung, line)
+            line = re.sub(r'\bDIAGNOSE\b', Diagnose, line)
+            line = re.sub(r'\bARZT\b', Arzt, line)
             line = re.sub(r'\bANREDE\b', Anrede, line)
             line = re.sub(r'\bVORNAME\b', Vorname, line)
             line = re.sub(r'\bNACHNAME\b', Nachname, line)
             line = re.sub(r'\bSTRAßE\b', Straße, line)
             line = re.sub(r'\bSTADT\b', Stadt, line)
-            line = line.replace("EINLEITUNG", Einleitung)
             line = re.sub(r'\bRECHNUNGSBETRAG\b', RECHNUNGSBETRAG, line)
             line = re.sub(r'ANZAHL & BEHANDLUNG & EINZELPREIS\\,€ & GESAMTPREIS\\,€ \\\\', BEHANDLUNGEN, line)
             line = re.sub(r'\bBEHANDLUNGSTERMINE\b', BEHANDLUNGSTERMINE, line)
