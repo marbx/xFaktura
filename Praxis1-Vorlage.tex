@@ -1,17 +1,28 @@
 
 \documentclass[a4paper,12pt]{letter}
-\usepackage{luacode}
 
+% Diese Formulierungen hängen dynamisch von Eingaben ab
+\usepackage{luacode}
 \begin{luacode}
-  function anrede ( form )
+
+  function anrede(form)
   -- Anrede bei "Herr..." oder "Frau..." ändern
-    if form:find ( "^Frau" ) then  form = "Sehr geehrte "..form  end
-    if form:find ( "^Herr" ) then  form = "Sehr geehrter "..form end
+    if form:find("^Frau") then form = "Sehr geehrte "..form  end
+    if form:find("^Herr") then form = "Sehr geehrter "..form end
   -- Sonst genauso übernehmen
-    tex.sprint ( form )
+    tex.sprint( form )
   end
-  \end{luacode}
-  \newcommand\anrede[1]{\directlua{anrede(\luastring{#1})}}
+
+  function patient(anrede)
+  form = "Patient"
+  -- Form bei "Frau..." ändern
+  if anrede:find("^Frau") then form = "Patientin" end
+  tex.sprint(form)
+  end
+
+\end{luacode}
+\newcommand\anrede[1]{\directlua{anrede(\luastring{#1})}}
+\newcommand\patient[1]{\directlua{patient(\luastring{#1})}}
   
 
 %\usepackage{showframe}       % Show the margins
@@ -95,14 +106,14 @@ STADT
 
 \begin{tabular}{p{60mm}ll}
   \textbf{RECHNUNG} 
-  & Rechnungsnummer: & RECHNUNGSNUMMER   \medskip\\
+  & Rechnungsnummer:   & RECHNUNGSNUMMER    \medskip\\
   & Rechnungsdatum:    & RECHNUNGSDATUM     \medskip\\
-  & PATIENT:                 & VORNAME NACHNAME
+  & \patient{ANREDE}:  & VORNAME NACHNAME
 \end{tabular}
 
 \vspace{8mm}
 
-ANREDE NACHNAME,\medskip\\
+\anrede{ANREDE} NACHNAME,\medskip\\
 EINLEITUNG
 
 \begin{center}

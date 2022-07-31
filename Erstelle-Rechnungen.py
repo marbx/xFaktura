@@ -86,17 +86,11 @@ def Diese_Rechnung(Rechnungsnummer):
         Nachname         = format_text(rechnung_df['Nachname'].item())
         Straße           = format_text(rechnung_df['Straße'].item())
         Stadt            = format_text(rechnung_df['Stadt'].item())
-        HerrFrau         = format_text(rechnung_df['Anrede'].item())
+        Anrede           = format_text(rechnung_df['Anrede'].item())
         Diagnose         = format_text(rechnung_df['Diagnose'].item())
         Arzt             = format_text(rechnung_df['Arzt'].item())
         Datum_Rechnung   = format_datetime(rechnung_df['Datum Rechnung'].item())
         Datum_Verordnung = format_datetime(rechnung_df['Datum Verordnung'].item())
-        if 'Herr' in HerrFrau:
-            Anrede = f'Sehr geehrter {HerrFrau}'
-            PATIENT = 'Patient'
-        else:
-            Anrede = f'Sehr geehrte {HerrFrau}'
-            PATIENT = 'Patientin'
 
         if len(Diagnose) > 3:
             DiagnoseEinschub = f" mit Diagnose: & {Diagnose} "
@@ -175,7 +169,6 @@ erlaube ich mir folgende Leistungen in Rechnung zu stellen:"""
             line = re.sub(r'\bRECHNUNGSNUMMER\b', Rechnungsnummer, line)
             line = re.sub(r'\bRECHNUNGSDATUM\b', Datum_Rechnung, line)
             line = re.sub(r'\bANREDE\b', Anrede, line)
-            line = re.sub(r'\bPATIENT\b', PATIENT, line)
             line = re.sub(r'\bVORNAME\b', Vorname, line)
             line = re.sub(r'\bNACHNAME\b', Nachname, line)
             line = re.sub(r'\bSTRAßE\b', Straße, line)
