@@ -1,32 +1,33 @@
+# Use Latex-Live, not apt, to install LaTex
 
-
+direxists() {
+    [ -d "$1" ]
+}
 if ! [[ -f install-tl-unx.tar.gz ]] && ! [[ -f install-tl-unx.tar ]]; then
-    echo getting installer
+    echo downloading installer...
     wget https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
 fi
 
 
 if [[ -f install-tl-unx.tar.gz ]] && ! [[ -f install-tl-unx.tar ]]; then
-    echo unzipping installer
+    echo unzipping installer...
     gunzip install-tl-unx.tar.gz
 fi
 
 
-if [[ -f install-tl- ]] && ! [[ -f install-tl-unx.tar ]]; then
-    echo untar installer
-    #tar xf install-tl-unx.tar
+if ! direxists install-tl-20??????  &&  [[ -f install-tl-unx.tar ]]; then
+    echo untaring installer...
+    tar xf install-tl-unx.tar
 fi
 
 # DOCU https://tug.org/texlive/quickinstall.html
+# Installtion macht web-download egal ob schon alles da!
+echo installing...
+sudo install-tl-20??????/install-tl --scheme=small
+
 #
-# AUSPROBIEREN
-# install-tl --scheme=scheme-basic
-
-#sudo install-tl-20220724/install-tl -profile texlive.profile
-#sudo install-tl-20220724/install-tl
-
-# /usr/local/texlive/YYYY/bin/PLATFORM  in the Pfad
-# ich habe die L option gewählt
+# /usr/local/texlive/YYYY/bin/PLATFORM  in the Pfad !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# ich habe die Optionen O / L gewählt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ## install the required packages
 sudo tlmgr install soulutf8
