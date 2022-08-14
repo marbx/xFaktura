@@ -1,8 +1,10 @@
-missfont.log
-texlive.profile
+.venv/
+Natürlich-Bewegen-Rechnung.tex
+Natürlich-Bewegen-Rechnung-20*.pdf
+Praxis1-Rechnung-20*.pdf
 install-tl*
 install-tl-unx.tar
+missfont.log
 test*.aux
 test*.log
-.venv/
-Praxis1-Rechnung-20*.pdf
+texlive.profile

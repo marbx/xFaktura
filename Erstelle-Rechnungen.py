@@ -6,8 +6,20 @@ import glob
 import datetime
 import os
 import subprocess
+import sys
 
 locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')  # Voraussetzung für Komma bei Zahlen
+
+# Chose TeX Template
+TeXtemplateFiles = glob.glob("N*.tex")
+if len(TeXtemplateFiles) == 1:
+    TeXtemplateFile = TeXtemplateFiles[0]
+    print(f"Gewählt {TeXtemplateFile}")
+else:
+    print(f"ERROR 1")
+    sys.exit(1)
+
+TeXtemplateBasename = TeXtemplateFile.replace('.tex', '')
 
 # DataFrame ist ein Array aus Sheet, Column, Row. Leere Zellen, auch Text, werden zu float NaN
 df_sheets = pd.read_excel('Praxis1.xlsx', sheet_name=None)
@@ -70,7 +82,7 @@ except KeyError as exc:
 
 def Diese_Rechnung(Rechnungsnummer):
     global Anzahl_pdf_nicht_überschrieben
-    pdfglob  = f'Praxis1-Rechnung-{Rechnungsnummer}-*.pdf'
+    pdfglob  = f'{TeXtemplateBasename}-{Rechnungsnummer}-*.pdf'
     if len(glob.glob(pdfglob)) > 0:
         #print(f"{pdfglob} nicht überschrieben")
         Anzahl_pdf_nicht_überschrieben += 1
@@ -150,7 +162,7 @@ def Diese_Rechnung(Rechnungsnummer):
     output = ''
     inside_document = False
     kopie = ''
-    with open('Praxis1-Vorlage.tex', encoding='utf8') as file:
+    with open(TeXtemplateFile, encoding='utf8') as file:
         for line in file:
             # Füge (Kopie) in der Kopie hinzu
             if r'\textbf{RECHNUNG}' in line:
@@ -205,7 +217,7 @@ def Diese_Rechnung(Rechnungsnummer):
             if not os.path.isdir(tmpdir):
                 raise
 
-    Basisname_der_Datei = f'Praxis1-Rechnung-{Rechnungsnummer}-{Nachname}'
+    Basisname_der_Datei = f'{TeXtemplateBasename}-{Rechnungsnummer}-{Nachname}'
     pdfdatei =          Basisname_der_Datei + '.pdf'
     texdatei = tmpdir + Basisname_der_Datei + '.tex'
     dvidatei = tmpdir + Basisname_der_Datei + '.dvi'
