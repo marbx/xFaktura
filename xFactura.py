@@ -11,12 +11,14 @@ import sys
 locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')  # Voraussetzung für Komma bei Zahlen
 
 # Chose TeX Template
-TeXtemplateFiles = glob.glob("N*.tex")
+TeXtemplateFiles = glob.glob("*.tex")
+if len(TeXtemplateFiles) == 2 and 'Praxis1-Vorlage.tex' in TeXtemplateFiles:
+    TeXtemplateFiles.remove('Praxis1-Vorlage.tex')
 if len(TeXtemplateFiles) == 1:
     TeXtemplateFile = TeXtemplateFiles[0]
-    print(f"Gewählt {TeXtemplateFile}")
+    print(f"Template is {TeXtemplateFile}")
 else:
-    print(f"ERROR 1")
+    print(f"Please leave only one .tex file here, found {TeXtemplateFiles}")
     sys.exit(1)
 
 TeXtemplateBasename = TeXtemplateFile.replace('.tex', '')
