@@ -7,6 +7,8 @@ import datetime
 import os
 import subprocess
 import sys
+from openpyxl import load_workbook
+import collections
 
 locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')  # Voraussetzung für Komma bei Zahlen
 
@@ -29,15 +31,50 @@ if len(xlsFiles) == 2 and 'Praxis1.xlsx' in xlsFiles:
     xlsFiles.remove('Praxis1.xlsx')
 if len(xlsFiles) == 1:
     xlsFile = xlsFiles[0]
-    print(f"Data is     {xlsFile}")
+    print(f"Data is in  {xlsFile}")
 else:
     print(f"Please leave only one .tex file here, found {xlsFiles}")
     sys.exit(1)
+
+Exceldatei = load_workbook(os.path.join(os.path.dirname(__file__),'Natürlich-Bewegen-Kasse.xlsx'))
+Exceltabelle_Behandlungen = Exceldatei['Behandlungen']
+Exceltabelle_Rechnungen = Exceldatei['Rechnungen']
+
+# Inspect data -- headers
+headersB = []
+for header in [Exceltabelle_Behandlungen.cell(row=1,column=ccc) for ccc in range(1,40)]:
+    if header.value is not None:
+        headersB.append(header.value)
+
+duplicatedB = [item for item, count in collections.Counter(headersB).items() if count > 1]
+if len(duplicatedB) > 0:
+    print(f"Please remove the duplicated header {duplicatedB}")
+    sys.exit(1)
+
+for muss in ['Rechnung', 'Behandlung', 'Patient', 'Rechnung']: 
+    if muss not in headersB:
+        print(f"Please add the missing header {muss}, found {headersB}")
+        sys.exit(1)
+
+headersR = []
+for header in [Exceltabelle_Rechnungen.cell(row=1,column=ccc) for ccc in range(1,40)]:
+    if header.value is not None:
+        headersR.append(header.value)
+
+for muss in ['Rechnung', 'Datum Rechnung', 'Anrede', 'Vorname', 'Nachname', 'Straße', 'Stadt', 'Arzt', 'Datum Verordnung', 'Diagnose']: 
+    if muss not in headersR:
+        print(f"Please add the missing header {muss}")
+        print(f"Found {headersR}")
+        print(f"Watch out for spaces")
+        sys.exit(1)
 
 
 # DataFrame ist ein Array aus Sheet, Column, Row. Leere Zellen, auch Text, werden zu float NaN
 df_sheets = pd.read_excel(xlsFile, sheet_name=None)
 Anzahl_pdf_nicht_überschrieben = 0
+
+aSheet = df_sheets["Behandlungen"]
+#print(f"markus {aSheet.columns.values}")
 
 
 def format_datetime(datum_oder_text):
@@ -131,6 +168,10 @@ def Diese_Rechnung(Rechnungsnummer):
         Datum_Rechnung   = format_datetime(rechnung_df['Datum Rechnung'].item())
         Datum_Verordnung = format_datetime(rechnung_df['Datum Verordnung'].item())
 
+        # Inspect data -- date naT TODO
+        if len(Datum_Rechnung) < 5:
+            print(f"Skipping invoice {Rechnungsnummer} because it has no date")
+            return
         # Suche Behandlungsarten
         Behandlungsarten = []
         headersAb2 = df_sheets["Behandlungen"].columns[2:]
