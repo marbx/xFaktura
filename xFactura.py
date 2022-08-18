@@ -23,8 +23,20 @@ else:
 
 TeXtemplateBasename = TeXtemplateFile.replace('.tex', '')
 
+# Chose xls
+xlsFiles = glob.glob("*.xlsx")
+if len(xlsFiles) == 2 and 'Praxis1.xlsx' in xlsFiles:
+    xlsFiles.remove('Praxis1.xlsx')
+if len(xlsFiles) == 1:
+    xlsFile = xlsFiles[0]
+    print(f"Data is     {xlsFile}")
+else:
+    print(f"Please leave only one .tex file here, found {xlsFiles}")
+    sys.exit(1)
+
+
 # DataFrame ist ein Array aus Sheet, Column, Row. Leere Zellen, auch Text, werden zu float NaN
-df_sheets = pd.read_excel('Praxis1.xlsx', sheet_name=None)
+df_sheets = pd.read_excel(xlsFile, sheet_name=None)
 Anzahl_pdf_nicht_überschrieben = 0
 
 
