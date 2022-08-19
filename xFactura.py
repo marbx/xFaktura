@@ -40,6 +40,23 @@ Exceldatei = load_workbook(os.path.join(os.path.dirname(__file__),'Natürlich-Be
 Exceltabelle_Behandlungen = Exceldatei['Behandlungen']
 Exceltabelle_Rechnungen = Exceldatei['Rechnungen']
 
+# Collect all-caps
+allcap = ''
+allcapDict = {}
+with open(TeXtemplateFile, encoding='utf8') as file:
+    for line in file:
+        for char in line: 
+            if char.isupper() or char in ['ß', '_']:
+                allcap += char
+            else:
+                if len(allcap) > 3:
+                    allcapDict[allcap] = 1
+                allcap = ''
+
+for cap in allcapDict:
+    print(f" {cap}", end='')
+print("")
+
 # Inspect data -- headers
 headersB = []
 for header in [Exceltabelle_Behandlungen.cell(row=1,column=ccc) for ccc in range(1,40)]:
