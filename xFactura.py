@@ -13,6 +13,24 @@ import collections
 
 locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')  # Voraussetzung für Komma bei Zahlen
 
+LANG = 'de'
+if LANG == 'de':
+    Please_leave_only_one_tex_file_here_found= 'Bitte nur eine .tex Vorlage, gefunden'
+    Please_leave_only_one_xls_file_here_found= 'Bitte nur eine .xlxs Datei, gefunden'
+    Please_remove_the_duplicated_header = 'Bitte entferne eine der doppelten Header'
+    Please_add_the_missing_header = 'Bitte ergänze den fehlenden Header'
+    Found = 'Gefunden'
+    Watch_out_for_spaces = 'Beachte Leerzeichen'
+    Skipping_invoice_1_because_it_has_no_date = 'Rechnungsnummer {} übersprungen weil Datum fehlt'
+if LANG == 'en':
+    Please_leave_only_one_tex_file_here_found= 'Please leave only one .tex template, found'
+    Please_leave_only_one_xls_file_here_found= 'Please leave only one .xls file, found'
+    Please_remove_the_duplicated_header = 'Please remove the duplicated header'
+    Please_add_the_missing_header = 'Please add the missing header'
+    Found = 'Found'
+    Watch_out_for_spaces = 'Watch out for spaces'
+    Skipping_invoice_1_because_it_has_no_date = 'Skipping invoice {} because it has no date'
+
 print(f"Python {platform.python_version()} on {platform.system()}")
 # Chose TeX Template
 TeXtemplateFiles = glob.glob("*.tex")
@@ -20,9 +38,8 @@ if len(TeXtemplateFiles) == 2 and 'Praxis1-Vorlage.tex' in TeXtemplateFiles:
     TeXtemplateFiles.remove('Praxis1-Vorlage.tex')
 if len(TeXtemplateFiles) == 1:
     TeXtemplateFile = TeXtemplateFiles[0]
-    print(f"Template is {TeXtemplateFile}")
 else:
-    print(f"Please leave only one .tex file here, found {TeXtemplateFiles}")
+    print(f"{Please_leave_only_one_tex_file_here_found} {TeXtemplateFiles}")
     sys.exit(1)
 
 TeXtemplateBasename = TeXtemplateFile.replace('.tex', '')
@@ -33,16 +50,12 @@ if len(xlsFiles) == 2 and 'Praxis1.xlsx' in xlsFiles:
     xlsFiles.remove('Praxis1.xlsx')
 if len(xlsFiles) == 1:
     xlsFile = xlsFiles[0]
-    print(f"Data is in  {xlsFile}")
 else:
-    print(f"Please leave only one .tex file here, found {xlsFiles}")
+    print(f"{Please_leave_only_one_xls_file_here_found} {xlsFiles}")
     sys.exit(1)
 
-Exceldatei = load_workbook(os.path.join(os.path.dirname(__file__),'Natürlich-Bewegen-Kasse.xlsx'))
-Exceltabelle_Behandlungen = Exceldatei['Behandlungen']
-Exceltabelle_Rechnungen = Exceldatei['Rechnungen']
 
-# Collect all-caps
+# Collect all-caps from TeX
 allcap = ''
 allcapDict = {}
 with open(TeXtemplateFile, encoding='utf8') as file:
@@ -55,9 +68,15 @@ with open(TeXtemplateFile, encoding='utf8') as file:
                     allcapDict[allcap] = 1
                 allcap = ''
 
-for cap in allcapDict:
-    print(f" {cap}", end='')
-print("")
+if False:
+    for cap in allcapDict:
+        print(f" {cap}", end='')
+    print("")
+
+# Inspect data 
+Exceldatei = load_workbook(xlsFile)
+Exceltabelle_Behandlungen = Exceldatei['Behandlungen']
+Exceltabelle_Rechnungen = Exceldatei['Rechnungen']
 
 # Inspect data -- headers
 headersB = []
@@ -67,12 +86,14 @@ for header in [Exceltabelle_Behandlungen.cell(row=1,column=ccc) for ccc in range
 
 duplicatedB = [item for item, count in collections.Counter(headersB).items() if count > 1]
 if len(duplicatedB) > 0:
-    print(f"Please remove the duplicated header {duplicatedB}")
+    print(f"{Please_remove_the_duplicated_header} {duplicatedB}")
     sys.exit(1)
 
 for muss in ['Rechnung', 'Behandlung', 'Patient', 'Rechnung']: 
     if muss not in headersB:
-        print(f"Please add the missing header {muss}, found {headersB}")
+        print(f"{Please_add_the_missing_header} {muss}")
+        print(f"{Found} {headersB}")
+        print(Watch_out_for_spaces)
         sys.exit(1)
 
 headersR = []
@@ -82,9 +103,9 @@ for header in [Exceltabelle_Rechnungen.cell(row=1,column=ccc) for ccc in range(1
 
 for muss in ['Rechnung', 'Datum Rechnung', 'Anrede', 'Vorname', 'Nachname', 'Straße', 'Stadt', 'Arzt', 'Datum Verordnung', 'Diagnose']: 
     if muss not in headersR:
-        print(f"Please add the missing header {muss}")
-        print(f"Found {headersR}")
-        print(f"Watch out for spaces")
+        print(f"{Please_add_the_missing_header} {muss}")
+        print(f"{Found} {headersR}")
+        print(Watch_out_for_spaces)
         sys.exit(1)
 
 
@@ -189,7 +210,7 @@ def Diese_Rechnung(Rechnungsnummer):
 
         # Inspect data -- date naT TODO
         if len(Datum_Rechnung) < 5:
-            print(f"Skipping invoice {Rechnungsnummer} because it has no date")
+            print(Skipping_invoice_1_because_it_has_no_date.format(Rechnungsnummer))
             return
         # Suche Behandlungsarten
         Behandlungsarten = []
