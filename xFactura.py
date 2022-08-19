@@ -6,12 +6,14 @@ import glob
 import datetime
 import os
 import subprocess
+import platform
 import sys
 from openpyxl import load_workbook
 import collections
 
 locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')  # Voraussetzung für Komma bei Zahlen
 
+print(f"Python {platform.python_version()} on {platform.system()}")
 # Chose TeX Template
 TeXtemplateFiles = glob.glob("*.tex")
 if len(TeXtemplateFiles) == 2 and 'Praxis1-Vorlage.tex' in TeXtemplateFiles:
