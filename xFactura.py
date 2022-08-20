@@ -38,7 +38,9 @@ def set_language(LANG):
         Watch_out_for_spaces = 'Beachte Leerzeichen'
         Skipping_invoice_1_because_it_has_no_date = 'Rechnungsnummer {} übersprungen weil Datum fehlt'
 
+
 print(f"xFaktura 1.0.0 Python {platform.python_version()} {platform.platform(terse=True)}")
+
 
 # Chose TeX Template
 TeXtemplateFiles = glob.glob("*.tex")
@@ -50,6 +52,7 @@ if len(TeXtemplateFiles) == 1:
 else:
     print(f"{Please_leave_only_one_tex_file_here_found} {TeXtemplateFiles}")
     sys.exit(1)
+
 
 # Collect all-caps from TeX
 allcap = ''
@@ -63,6 +66,7 @@ with open(TeXtemplateFile, encoding='utf8') as file:
                 if len(allcap) > 3:
                     allcapDict[allcap] = 1
                 allcap = ''
+
 
 if 'RECHNUNGSNUMMER' in allcapDict:
     set_language('de')
@@ -124,11 +128,12 @@ aSheet = df_sheets["Behandlungen"]
 
 
 def format_datetime(datum_oder_text):
-    if type(datum_oder_text) == type(None): return ''
-    elif type(datum_oder_text) == type(str()): return datum_oder_text
-    elif type(datum_oder_text) == type(pd.Timestamp.now()): return datum_oder_text.strftime('%d.%m.%Y')
+    if   type(datum_oder_text) == type(None):                    return ''
+    elif type(datum_oder_text) == type(str()):                   return datum_oder_text
+    elif type(datum_oder_text) == type(pd.Timestamp.now()):      return datum_oder_text.strftime('%d.%m.%Y')
     elif type(datum_oder_text) == type(datetime.datetime.now()): return datum_oder_text.strftime('%d.%m.%Y')
     else: return str(datum_oder_text)
+
 
 def escape_latex_special_characters(in11):
     out11 = in11
@@ -143,6 +148,7 @@ def escape_latex_special_characters(in11):
     out11 = out11.replace('#', '\\#')
     out11 = out11.replace('_', '\\_')
     return out11
+
 
 def format_text(text_oder_float_nan):
     # pandas gibt flot nan als Leere Zelle zurück
@@ -159,6 +165,7 @@ def format_text(text_oder_float_nan):
 def write_error(txt):
     print(txt)
     #quit()
+
 
 def lösche_datei(datei):
     if os.path.exists(datei):
@@ -302,9 +309,9 @@ def Diese_Rechnung(Rechnungsnummer):
 
 
     import platform
-    tmpdir = '/tmp/spreadsheet-invoice/'
+    tmpdir = '/tmp/xFaktura/'
     if platform.system() == 'Windows':
-        tmpdir = 'C:\\Windows\\temp\\spreadsheet-invoice\\'
+        tmpdir = 'C:\\Windows\\temp\\xFaktura\\'
 
     # https://csatlas.com/python-create-directory
     import os
