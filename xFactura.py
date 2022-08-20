@@ -13,47 +13,43 @@ import collections
 
 locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')  # Voraussetzung für Komma bei Zahlen
 
-LANG = 'de'
-if LANG == 'de':
-    Please_leave_only_one_tex_file_here_found= 'Bitte nur eine .tex Vorlage, gefunden'
-    Please_leave_only_one_xls_file_here_found= 'Bitte nur eine .xlxs Datei, gefunden'
-    Please_remove_the_duplicated_header = 'Bitte entferne eine der doppelten Header'
-    Please_add_the_missing_header = 'Bitte ergänze den fehlenden Header'
-    Found = 'Gefunden'
-    Watch_out_for_spaces = 'Beachte Leerzeichen'
-    Skipping_invoice_1_because_it_has_no_date = 'Rechnungsnummer {} übersprungen weil Datum fehlt'
-if LANG == 'en':
-    Please_leave_only_one_tex_file_here_found= 'Please leave only one .tex template, found'
-    Please_leave_only_one_xls_file_here_found= 'Please leave only one .xls file, found'
-    Please_remove_the_duplicated_header = 'Please remove the duplicated header'
-    Please_add_the_missing_header = 'Please add the missing header'
-    Found = 'Found'
-    Watch_out_for_spaces = 'Watch out for spaces'
-    Skipping_invoice_1_because_it_has_no_date = 'Skipping invoice {} because it has no date'
+Please_leave_only_one_tex_file_here_found= 'Please leave only one .tex template, found'
+Please_leave_only_one_xls_file_here_found= 'Please leave only one .xls file, found'
+Please_remove_the_duplicated_header = 'Please remove the duplicated header'
+Please_add_the_missing_header = 'Please add the missing header'
+Found = 'Found'
+# LANG
+Watch_out_for_spaces = 'Watch out for spaces'
+Skipping_invoice_1_because_it_has_no_date = 'Skipping invoice {} because it has no date'
+def set_language(LANG):
+    global Please_leave_only_one_tex_file_here_found
+    global Please_leave_only_one_xls_file_here_found
+    global Please_remove_the_duplicated_header
+    global Please_add_the_missing_header
+    global Found
+    global Watch_out_for_spaces
+    global Skipping_invoice_1_because_it_has_no_date
+    if LANG == 'de':
+        Please_leave_only_one_tex_file_here_found= 'Bitte nur eine .tex Vorlage, gefunden'
+        Please_leave_only_one_xls_file_here_found= 'Bitte nur eine .xlxs Datei, gefunden'
+        Please_remove_the_duplicated_header = 'Bitte entferne eine der doppelten Header'
+        Please_add_the_missing_header = 'Bitte ergänze den fehlenden Header'
+        Found = 'Gefunden'
+        Watch_out_for_spaces = 'Beachte Leerzeichen'
+        Skipping_invoice_1_because_it_has_no_date = 'Rechnungsnummer {} übersprungen weil Datum fehlt'
 
-print(f"Python {platform.python_version()} on {platform.system()}")
+print(f"xFaktura 1.0.0 Python {platform.python_version()} {platform.platform(terse=True)}")
+
 # Chose TeX Template
 TeXtemplateFiles = glob.glob("*.tex")
 if len(TeXtemplateFiles) == 2 and 'Praxis1-Vorlage.tex' in TeXtemplateFiles:
     TeXtemplateFiles.remove('Praxis1-Vorlage.tex')
 if len(TeXtemplateFiles) == 1:
     TeXtemplateFile = TeXtemplateFiles[0]
+    TeXtemplateBasename = TeXtemplateFile.replace('.tex', '')
 else:
     print(f"{Please_leave_only_one_tex_file_here_found} {TeXtemplateFiles}")
     sys.exit(1)
-
-TeXtemplateBasename = TeXtemplateFile.replace('.tex', '')
-
-# Chose xls
-xlsFiles = glob.glob("*.xlsx")
-if len(xlsFiles) == 2 and 'Praxis1.xlsx' in xlsFiles:
-    xlsFiles.remove('Praxis1.xlsx')
-if len(xlsFiles) == 1:
-    xlsFile = xlsFiles[0]
-else:
-    print(f"{Please_leave_only_one_xls_file_here_found} {xlsFiles}")
-    sys.exit(1)
-
 
 # Collect all-caps from TeX
 allcap = ''
@@ -68,10 +64,20 @@ with open(TeXtemplateFile, encoding='utf8') as file:
                     allcapDict[allcap] = 1
                 allcap = ''
 
-if False:
-    for cap in allcapDict:
-        print(f" {cap}", end='')
-    print("")
+if 'RECHNUNGSNUMMER' in allcapDict:
+    set_language('de')
+
+
+# Chose xls
+xlsFiles = glob.glob("*.xlsx")
+if len(xlsFiles) == 2 and 'Praxis1.xlsx' in xlsFiles:
+    xlsFiles.remove('Praxis1.xlsx')
+if len(xlsFiles) == 1:
+    xlsFile = xlsFiles[0]
+else:
+    print(f"{Please_leave_only_one_xls_file_here_found} {xlsFiles}")
+    sys.exit(1)
+
 
 # Inspect data 
 Exceldatei = load_workbook(xlsFile)
@@ -350,7 +356,6 @@ def Diese_Rechnung(Rechnungsnummer):
 ########################################################
 # Main
 ########################################################
-#Diese_Rechnung('2022-007')
 
 for rng in Rechnungsnummern:
     Diese_Rechnung(rng)
