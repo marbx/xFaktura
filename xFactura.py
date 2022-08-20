@@ -11,7 +11,6 @@ import sys
 from openpyxl import load_workbook
 import collections
 
-locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')  # Voraussetzung für Komma bei Zahlen
 
 Please_leave_only_one_tex_file_here_found= 'Please leave only one .tex template, found'
 Please_leave_only_one_xls_file_here_found= 'Please leave only one .xls file, found'
@@ -30,6 +29,7 @@ def set_language(LANG):
     global Watch_out_for_spaces
     global Skipping_invoice_1_because_it_has_no_date
     if LANG == 'de':
+        locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')  # Voraussetzung für Komma bei Zahlen
         Please_leave_only_one_tex_file_here_found= 'Bitte nur eine .tex Vorlage, gefunden'
         Please_leave_only_one_xls_file_here_found= 'Bitte nur eine .xlxs Datei, gefunden'
         Please_remove_the_duplicated_header = 'Bitte entferne eine der doppelten Header'
