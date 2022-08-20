@@ -1,0 +1,207 @@
+
+\documentclass[a4paper,12pt]{letter}
+
+% Diese Formulierungen hängen dynamisch von Eingaben ab
+% https://www.ctan.org/pkg/luacode
+\usepackage{luacode}
+\LuaCodeDebugOn
+\begin{luacode}
+
+  function anrede(form)
+    -- Anrede bei "Herr..." oder "Frau..." ändern
+    if form:find("^Frau") then form = "Sehr geehrte "..form  end
+    if form:find("^Herr") then form = "Sehr geehrter "..form end
+    -- Sonst genauso übernehmen
+    tex.sprint( form )
+  end
+
+  function patient(anrede)
+    form = "Patient"
+    -- Form bei "Frau..." ändern
+    if anrede:find("^Frau") then form = "Patientin" end
+    tex.sprint(form)
+  end
+
+  function einleitung(Arzt, Datum_Verordnung, Diagnose)
+    if string.len(Arzt) > 3 and string.len(Datum_Verordnung) > 3 then
+      line = ""
+      line = line .. "aufgrund der Verordnung von " .. Arzt .. "\\medskip \\\\"
+      line = line .. "\\begin{tabularx}{\\textwidth}{lX}"
+      line = line .. "vom: & " .. Datum_Verordnung .. "\\\\"
+      if string.len(Diagnose) > 3 then
+        line = line .. "mit Diagnose: & " .. Diagnose
+      end
+      line = line .. "\\end{tabularx}  \\smallskip  \\\\"
+      line = line .. "erlaube ich mir folgende Leistungen in Rechnung zu stellen:"
+    else
+      line = "ich erlaube mir folgende Leistungen in Rechnung zu stellen:"
+    end
+    tex.sprint(line)
+
+  end
+
+\end{luacode}
+\newcommand\anrede[1]{\directlua{anrede(\luastring{#1})}}
+\newcommand\patient[1]{\directlua{patient(\luastring{#1})}}
+\newcommand\einleitung[3]{\directlua{einleitung(\luastring{#1},\luastring{#2},\luastring{#3})}}
+
+%\usepackage{showframe}       % Show the margins
+
+%%%% Absätze mit 2 Leerenzeilen machen
+%%%% Zeilenende mit \\ machen
+%%%% Am Ende des Absatz ist \\ unnötig und verursacht eine Warnung
+
+%% Seitenränder Anfang
+%%%%%%%% Zum Nachschlagen
+% https://texblog.org/2012/08/29/changing-the-font-size-in-latex/
+% https://tex.stackexchange.com/questions/193964/how-to-increase-the-width-of-the-page-used-by-my-text
+% https://en.wikibooks.org/wiki/LaTeX/Page_Layout#Page_dimensions
+%%%%%%%%%%%%%%%%%%
+\addtolength{\oddsidemargin}{-22mm}
+\addtolength{\evensidemargin}{-22mm}
+\addtolength{\textwidth}{33mm}
+
+\addtolength{\headsep}{-5mm}
+\addtolength{\textheight}{15mm}
+
+\addtolength{\topmargin}{-28mm}
+\addtolength{\headheight}{33mm}
+%% Seitenränder Ende
+
+\setlength{\parindent}{0pt}        % Kein Einzug
+\setlength{\arrayrulewidth}{0.5\arrayrulewidth}   % schmale Linie
+
+
+\usepackage[ngerman]{babel}
+\usepackage{tabularx}
+\usepackage{soulutf8}
+
+%%%%%%% Soul macht Wortabstand: between letters / between words / outside words
+\sodef\soulA{}{0.12em}{0.40em}{0.11em}
+\sodef\soulB{}{0.40em}{0.80em}{0.11em}
+\sodef\soulC{}{0.50em}{0.95em}{0.11em}
+
+\usepackage{fontspec}
+\setsansfont{TeX Gyre Heros}
+\renewcommand\familydefault{\sfdefault}
+
+
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\renewcommand{\familydefault}{\sfdefault}
+
+
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhf{}
+\fancyhead{}
+\fancyhead[R]{
+  \begin{tabular}{p{75mm} c}
+  & {\Large \color{orange}   \soulC{Praxis1}                   } \medskip \vspace{2mm}   \\
+  & {\large                          \soulB{Inhaber}                       }  \medskip \\
+  &                                     \soulA{Berufsbezeichnung}                       \medskip \\
+  &                                     \soulA{Tel: *********}                  \medskip \\
+  &                                     \soulA{************}
+  \end{tabular}
+}
+\fancyfoot{}
+\fancyfoot[C]{
+  \footnotesize
+  {\color{orange} \soulA{Praxis1}}
+  \soulA{ $\cdot$ Praxis1 $\cdot$ Inhaber}\\
+  \soulA{Bank $\cdot$ IBAN: DE** **** **** **** **** ** $\cdot$ Steuernummer:~***/***/****}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Dokument
+\begin{document}
+
+\vspace{2mm}
+
+{\scriptsize {\color{orange} Praxis1} $\cdot$ Straße $\cdot$  **** *******}\\
+Alpha Alphason\\
+Astraße 1\medskip\\
+ÄäÜüÖößstadt
+
+\vspace{18mm}
+
+\begin{tabular}{p{60mm}ll}
+  \textbf{Rechnung}
+  & Rechnungsnummer:   & 2022-001    \medskip\\
+  & Rechnungsdatum:    & 01.12.2001     \medskip\\
+  & \patient{Frau}:  & Alpha Alphason
+\end{tabular}
+
+\vspace{8mm}
+
+\anrede{Frau} Alphason,\medskip\\
+\einleitung{Herrn Dr. Foo}{28.10.2021}{aaa bbb ccc  \& \% \$ \# \_ \{ \} \textasciitilde \textasciicircum \textbackslash  / ( ) = ? § ! “ aaa “bbb” ccc aaa bbb ccc aaa bbb ccc aaa bbb ccc aaa bbb ccc aaa bbb ccc \& so weiter}
+
+\begin{center}
+\begin{tabular}{r l r r}
+  \textbf{Anzahl} & \textbf{Art der Behandlung} & \textbf{Einzelpreis} & \textbf{Gesamtpreis}\\
+  \hline
+  1 & Beha1 & 11,00\,€ & 11,00\,€ \\
+  1 & Beha2 & 22,00\,€ & 22,00\,€ \\
+  2 & Beha3 & 33,00\,€ & 66,00\,€ \\
+  2 & Beha4 & 44,00\,€ & 88,00\,€ \\
+  3 & Beha7 & 1,50\,€ & 4,50\,€ \\
+
+  \\
+  \hline
+  &  \multicolumn{2}{r}{\textbf{Rechnungsbetrag}} &  \textbf{191,50}\,€ \\
+  & \multicolumn{3}{r}{{\scriptsize Umsatzsteuerfreie Leistung nach §4 Nr. 14 Buchst. a) UStG}}
+\end{tabular}
+\end{center}
+Behandlungstermine: 10.11.2001, 11.11.2001, 12.11.2001.
+
+\vspace{10mm}
+
+Bitte überweisen Sie den oben genannten Betrag
+unter Angabe der Rechnungsnummer innerhalb der nächsten drei Wochen auf das unten genannte Konto.
+
+\newpage\addtolength{\headsep}{-9mm}
+\vspace{2mm}
+
+{\scriptsize {\color{orange} Praxis1} $\cdot$ Straße $\cdot$  **** *******}\\
+Alpha Alphason\\
+Astraße 1\medskip\\
+ÄäÜüÖößstadt
+
+\vspace{18mm}
+
+\begin{tabular}{p{60mm}ll}
+  \textbf{Rechnung} (Kopie)
+  & Rechnungsnummer:   & 2022-001    \medskip\\
+  & Rechnungsdatum:    & 01.12.2001     \medskip\\
+  & \patient{Frau}:  & Alpha Alphason
+\end{tabular}
+
+\vspace{8mm}
+
+\anrede{Frau} Alphason,\medskip\\
+\einleitung{Herrn Dr. Foo}{28.10.2021}{aaa bbb ccc  \& \% \$ \# \_ \{ \} \textasciitilde \textasciicircum \textbackslash  / ( ) = ? § ! “ aaa “bbb” ccc aaa bbb ccc aaa bbb ccc aaa bbb ccc aaa bbb ccc aaa bbb ccc \& so weiter}
+
+\begin{center}
+\begin{tabular}{r l r r}
+  \textbf{Anzahl} & \textbf{Art der Behandlung} & \textbf{Einzelpreis} & \textbf{Gesamtpreis}\\
+  \hline
+  1 & Beha1 & 11,00\,€ & 11,00\,€ \\
+  1 & Beha2 & 22,00\,€ & 22,00\,€ \\
+  2 & Beha3 & 33,00\,€ & 66,00\,€ \\
+  2 & Beha4 & 44,00\,€ & 88,00\,€ \\
+  3 & Beha7 & 1,50\,€ & 4,50\,€ \\
+
+  \\
+  \hline
+  &  \multicolumn{2}{r}{\textbf{Rechnungsbetrag}} &  \textbf{191,50}\,€ \\
+  & \multicolumn{3}{r}{{\scriptsize Umsatzsteuerfreie Leistung nach §4 Nr. 14 Buchst. a) UStG}}
+\end{tabular}
+\end{center}
+Behandlungstermine: 10.11.2001, 11.11.2001, 12.11.2001.
+
+\vspace{10mm}
+
+Bitte überweisen Sie den oben genannten Betrag
+unter Angabe der Rechnungsnummer innerhalb der nächsten drei Wochen auf das unten genannte Konto.
+
+\end{document}

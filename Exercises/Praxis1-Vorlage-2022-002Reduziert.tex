@@ -1,0 +1,59 @@
+\documentclass[a4paper,12pt]{letter}
+%\usepackage{showframe}       % Show margins
+
+\addtolength{\oddsidemargin}{-22mm}   % reduce left space
+\addtolength{\evensidemargin}{-22mm}
+\addtolength{\textwidth}{33mm}
+
+%\addtolength{\headsep}{-5mm}
+\addtolength{\textheight}{15mm}
+
+\addtolength{\topmargin}{-28mm} % reduces the space over the header, moves everything up
+\addtolength{\headheight}{28mm} % moves everthing down, but mostly the footer 
+
+\setlength{\parindent}{0pt}
+
+\usepackage{fontspec}
+\setsansfont{TeX Gyre Heros}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhf{}
+\fancyhead{}
+\fancyhead[R]{
+  \begin{tabular}{p{75mm} c}
+  & {\Large     hhhhhhhhhh1      } \medskip \vspace{2mm}\\
+  & {\large     hhhhhhhhhh2      } \medskip \\
+  &             hhhhhhhhhh3        \medskip \\
+  &             hhhhhhhhhh4        \medskip \\            
+  \end{tabular}
+}
+\fancyfoot{}
+\fancyfoot[C]{
+  \footnotesize
+  ff1  $\cdot$ ff1 $\cdot$ ff1\\
+  fffffffffff2
+}
+
+
+\begin{document}
+\vspace{2mm}
+
+{\scriptsize { Praxis1} $\cdot$ Straße $\cdot$  **** *******}\\
+Alpha Alphason\\
+Astraße 1\medskip\\
+Astadt
+
+\newpage
+%\addtolength{\headsep}{-9mm}
+\vspace{2mm}
+
+{\scriptsize { Praxis1} $\cdot$ Straße $\cdot$  **** *******}\\
+Alpha Alphason\\
+Astraße 1\medskip\\
+Astadt
+
+\end{document}
