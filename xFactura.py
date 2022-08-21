@@ -299,7 +299,6 @@ def Diese_Rechnung(Rechnungsnummer):
             # Erstelle Kopie
             if r'\end{document}' in line:
                 output += r'\newpage'
-                output += r'\addtolength{\headsep}{-9mm}'      # HACK
                 output += kopie
             output += line
             if inside_document:

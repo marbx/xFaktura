@@ -57,15 +57,15 @@
 % https://tex.stackexchange.com/questions/193964/how-to-increase-the-width-of-the-page-used-by-my-text
 % https://en.wikibooks.org/wiki/LaTeX/Page_Layout#Page_dimensions
 %%%%%%%%%%%%%%%%%%
-\addtolength{\oddsidemargin}{-22mm}
-\addtolength{\evensidemargin}{-22mm}
-\addtolength{\textwidth}{33mm}
+%%%% margin settings start
+\addtolength{\oddsidemargin}{-22mm}   % reduce left margin
+\addtolength{\evensidemargin}{-22mm}  % reduce left margin
+\addtolength{\textwidth}{33mm}        % increase width of text
+\addtolength{\textheight}{14mm}       % increase height of text and start of footer
 
-\addtolength{\headsep}{-5mm}
-\addtolength{\textheight}{15mm}
-
-\addtolength{\topmargin}{-28mm}
-\addtolength{\headheight}{33mm}
+\addtolength{\topmargin}{-28mm}       % reduce margin above header
+\addtolength{\headheight}{28mm}       % increase height of header and start of text
+%%%% margin settings end
 %% Seitenränder Ende
 
 \setlength{\parindent}{0pt}        % Kein Einzug
@@ -114,8 +114,6 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% Dokument
 \begin{document}
-
-\vspace{2mm}
 
 {\scriptsize {\color{orange} Praxis1} $\cdot$ Straße $\cdot$  **** *******}\\
 VORNAME NACHNAME\\
