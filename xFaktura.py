@@ -42,7 +42,7 @@ def set_language(LANG):
         Skipping_invoice_1_because_it_has_no_date = 'Rechnungsnummer {} übersprungen weil Datum fehlt'
 
 
-print(f"xFaktura 1.0.0 Python {platform.python_version()} {platform.platform(terse=True)}")
+print(f"xFaktura 1.0.0 Python {platform.python_version()} {platform.system()} {platform.release()}")
 
 
 # Chose TeX Template
