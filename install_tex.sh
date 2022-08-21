@@ -4,7 +4,7 @@
 
 tlmgrPackages() {
     ## evtl nur Heros https://www.gust.org.pl/projects/e-foundry/tex-gyre 
-    sudo tlmgr install soulutf8 soul xcolor luatexbase luacode fontspec tex-gyre german babel-german
+    sudo tlmgr install soulutf8 soul xcolor luatexbase luacode fontspec tex-gyre german babel-german hyphen-german
 }
 
 if command -v tlmgr &> /dev/null
@@ -15,7 +15,7 @@ else
     echo "tlmgr not found"
 fi
 
-exit
+#exit  ######################### be patient!! Only exit to test for new packages
 direxists() {
     [ -d "$1" ]
 }
@@ -47,6 +47,7 @@ sudo install-tl-20??????/install-tl --scheme=basic --no-doc-install --no-src-ins
 #
 # /usr/local/texlive/YYYY/bin/PLATFORM  in the Pfad !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # ich habe die Optionen O / L gewählt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# TODO do not require user input
 
 echo /// installing required packages...
 tlmgrPackages
