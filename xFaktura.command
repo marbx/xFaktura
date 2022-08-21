@@ -5,4 +5,4 @@ pwd
 cd -- "$(dirname "$0")"
 pwd
 
-python3 xFactura.py
+python3 xFaktura.py
