@@ -40,10 +40,19 @@
 
   end
 
+  function umsatzsteuerfreiheit(Datum_Verordnung)
+    if string.len(Datum_Verordnung) > 3 then
+      tex.sprint('Umsatzsteuerfreie Leistung nach §4 Nr. 14 Buchst. a) UStG')
+    else
+    tex.sprint('Keine Umsatzsteuerpflicht nach § 19 UStG')
+    end
+  end
+
 \end{luacode}
 \newcommand\anrede[1]{\directlua{anrede(\luastring{#1})}}
 \newcommand\patient[1]{\directlua{patient(\luastring{#1})}}
 \newcommand\einleitung[3]{\directlua{einleitung(\luastring{#1},\luastring{#2},\luastring{#3})}}
+\newcommand\umsatzsteuerfreiheit[1]{\directlua{umsatzsteuerfreiheit(\luastring{#1})}}
 
 %\usepackage{showframe}       % Show the margins
 
@@ -77,9 +86,9 @@
 \usepackage{soulutf8}
 
 %%%%%%% Soul macht Wortabstand: between letters / between words / outside words
-\sodef\soulA{}{0.12em}{0.40em}{0.11em}
-\sodef\soulB{}{0.40em}{0.80em}{0.11em}
-\sodef\soulC{}{0.50em}{0.95em}{0.11em}
+\sodef\soulL{}{0.12em}{0.40em}{0.11em}
+\sodef\soulM{}{0.40em}{0.80em}{0.11em}
+\sodef\soulS{}{0.50em}{0.95em}{0.11em}
 
 \usepackage{fontspec}
 \setsansfont{TeX Gyre Heros}
@@ -97,19 +106,19 @@
 \fancyhead{}
 \fancyhead[R]{
   \begin{tabular}{p{75mm} c}
-  & {\Large \color{orange}   \soulC{Praxis1}                   } \medskip \vspace{2mm}   \\
-  & {\large                          \soulB{Inhaber}                       }  \medskip \\
-  &                                     \soulA{Berufsbezeichnung}                       \medskip \\
-  &                                     \soulA{Tel: *********}                  \medskip \\
-  &                                     \soulA{************}
+  & {\Large \color{orange}   \soulS{Praxis1}                   } \medskip \vspace{2mm}   \\
+  & {\large                          \soulM{Inhaber}                       }  \medskip \\
+  &                                     \soulL{Berufsbezeichnung}                       \medskip \\
+  &                                     \soulL{Tel: *********}                  \medskip \\
+  &                                     \soulL{************}
   \end{tabular}
 }
 \fancyfoot{}
 \fancyfoot[C]{
   \footnotesize
-  {\color{orange} \soulA{Praxis1}}
-  \soulA{ $\cdot$ Praxis1 $\cdot$ Inhaber}\\
-  \soulA{Bank $\cdot$ IBAN: DE** **** **** **** **** ** $\cdot$ Steuernummer:~***/***/****}
+  {\color{orange} \soulL{Praxis1}}
+  \soulL{ $\cdot$ Praxis1 $\cdot$ Inhaber}\\
+  \soulL{Bank $\cdot$ IBAN: DE** **** **** **** **** ** $\cdot$ Steuernummer:~***/***/****}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% Dokument
@@ -142,7 +151,7 @@ ANZAHL & BEHANDLUNG & EINZELPREIS\,€ & GESAMTPREIS\,€ \\
   \\
   \hline
   &  \multicolumn{2}{r}{\textbf{Rechnungsbetrag}} &  \textbf{RECHNUNGSBETRAG}\,€ \\
-  & \multicolumn{3}{r}{{\scriptsize Umsatzsteuerfreie Leistung nach §4 Nr. 14 Buchst. a) UStG}}
+  & \multicolumn{3}{r}{{\scriptsize \umsatzsteuerfreiheit{DATUM_VERORDNUNG}}}
 \end{tabular}
 \end{center}
 Behandlungstermine: BEHANDLUNGSTERMINE.
