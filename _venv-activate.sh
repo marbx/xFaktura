@@ -1,1 +1,1 @@
-source .venv/bin/activate
+source /opt/xFaktura/.venv/bin/activate
