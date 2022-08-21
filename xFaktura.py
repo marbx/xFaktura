@@ -14,6 +14,7 @@ import collections
 
 Please_leave_only_one_tex_file_here_found= 'Please leave only one .tex template, found'
 Please_leave_only_one_xls_file_here_found= 'Please leave only one .xls file, found'
+Please_store_one_xls_file_here = 'Please store one .xls file here'
 Please_remove_the_duplicated_header = 'Please remove the duplicated header'
 Please_add_the_missing_header = 'Please add the missing header'
 Found = 'Found'
@@ -23,6 +24,7 @@ Skipping_invoice_1_because_it_has_no_date = 'Skipping invoice {} because it has 
 def set_language(LANG):
     global Please_leave_only_one_tex_file_here_found
     global Please_leave_only_one_xls_file_here_found
+    global Please_store_one_xls_file_here
     global Please_remove_the_duplicated_header
     global Please_add_the_missing_header
     global Found
@@ -32,6 +34,7 @@ def set_language(LANG):
         locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')  # Voraussetzung für Komma bei Zahlen
         Please_leave_only_one_tex_file_here_found= 'Bitte nur eine .tex Vorlage, gefunden'
         Please_leave_only_one_xls_file_here_found= 'Bitte nur eine .xlxs Datei, gefunden'
+        Please_store_one_xls_file_here = 'Bitte speichere eine Excel Datei hier'
         Please_remove_the_duplicated_header = 'Bitte entferne eine der doppelten Header'
         Please_add_the_missing_header = 'Bitte ergänze den fehlenden Header'
         Found = 'Gefunden'
@@ -78,6 +81,9 @@ if len(xlsFiles) == 2 and 'Praxis1.xlsx' in xlsFiles:
     xlsFiles.remove('Praxis1.xlsx')
 if len(xlsFiles) == 1:
     xlsFile = xlsFiles[0]
+elif len(xlsFiles) == 0:
+    print(f"{Please_store_one_xls_file_here}")
+    sys.exit(1)
 else:
     print(f"{Please_leave_only_one_xls_file_here_found} {xlsFiles}")
     sys.exit(1)
