@@ -290,7 +290,7 @@ def Diese_Rechnung(Rechnungsnummer):
             #         ANZAHL & BEHANDLUNG & EINZELPREIS\,€ & GESAMTPREIS\,€ \\
             line = re.sub(r'\bRECHNUNGSNUMMER\b', Rechnungsnummer, line)
             line = re.sub(r'\bRECHNUNGSDATUM\b', Datum_Rechnung, line)
-            line = re.sub(r'\bDATUM_VERORDNUNG\b', Datum_Verordnung, line)
+            line = re.sub(r'\bVERORDNUNGSDATUM\b', Datum_Verordnung, line)
             line = re.sub(r'\bDIAGNOSE\b', Diagnose, line)
             line = re.sub(r'\bARZT\b', Arzt, line)
             line = re.sub(r'\bANREDE\b', Anrede, line)
