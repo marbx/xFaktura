@@ -2,20 +2,23 @@
 
 # Use Latex-Live, not apt, to install LaTex
 
-tlmgrPackages() {
-    ## evtl nur Heros https://www.gust.org.pl/projects/e-foundry/tex-gyre 
-    sudo tlmgr install soulutf8 soul xcolor luatexbase luacode fontspec tex-gyre german babel-german hyphen-german
-}
+if command -v lualatex &> /dev/null
+then
+  echo found lualatex `lualatex --version | head -n 1`
+  file -b `which lualatex`
+fi
+
 
 if command -v tlmgr &> /dev/null
 then
-    echo "tlmgr found"
-    tlmgrPackages
+    echo See `tlmgr list --only-installed | wc -l` TeXLive packages with tlmgr list --only-installed
 else
-    echo "tlmgr not found"
+    echo TeXLive Manager "tlmgr" not found
 fi
 
-#exit  ######################### be patient!! Only exit to test for new packages
+echo exiting now, TODO when to install what?
+exit
+
 direxists() {
     [ -d "$1" ]
 }
@@ -24,6 +27,7 @@ direxists() {
 if ! [[ -f install-tl-unx.tar.gz ]] && ! [[ -f install-tl-unx.tar ]]; then
     echo /// downloading installer...
     # TODO curl for macos
+    # curl -O --location  https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
     wget https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
 fi
 
@@ -49,6 +53,11 @@ sudo install-tl-20??????/install-tl --scheme=basic --no-doc-install --no-src-ins
 # ich habe die Optionen O / L gewählt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # TODO do not require user input
 
+InstallTlmgrPackages() {
+    ## evtl nur Heros https://www.gust.org.pl/projects/e-foundry/tex-gyre
+    sudo tlmgr install soulutf8 soul xcolor luatexbase luacode fontspec tex-gyre german babel-german hyphen-german
+}
+
 echo /// installing required packages...
-tlmgrPackages
+InstallTlmgrPackages
 
