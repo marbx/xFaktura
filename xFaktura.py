@@ -12,16 +12,35 @@ from openpyxl import load_workbook
 import collections
 
 
+
+# EN headers of spreadsheet invoices  
+spreadsheet_invoices_headers = {}
+spreadsheet_invoices_headers['invoice']           = 'Invoice' 
+spreadsheet_invoices_headers['date_invoice']      = 'Date invoice'
+spreadsheet_invoices_headers['salutation']        = 'Salutation'
+spreadsheet_invoices_headers['first_name']        = 'First name'
+spreadsheet_invoices_headers['last_name']         = 'Last name'
+spreadsheet_invoices_headers['street']            = 'Street'
+spreadsheet_invoices_headers['city']              = 'City'
+spreadsheet_invoices_headers['physician']         = 'Physician'
+spreadsheet_invoices_headers['date_prescription'] = 'Date Prescription'
+spreadsheet_invoices_headers['diagnosis']         = 'Diagnosis'
+
+
+# EN user feedback
 Please_leave_only_one_tex_file_here_found= 'Please leave only one .tex template, found'
 Please_leave_only_one_xls_file_here_found= 'Please leave only one .xls file, found'
 Please_store_one_xls_file_here = 'Please store one .xls file here'
 Please_remove_the_duplicated_header = 'Please remove the duplicated header'
 Please_add_the_missing_header = 'Please add the missing header'
 Found = 'Found'
-# LANG
 Watch_out_for_spaces = 'Watch out for spaces'
 Skipping_invoice_1_because_it_has_no_date = 'Skipping invoice {} because it has no date'
+
+
+
 def set_language(LANG):
+    global spreadsheet_invoices_headers
     global Please_leave_only_one_tex_file_here_found
     global Please_leave_only_one_xls_file_here_found
     global Please_store_one_xls_file_here
@@ -32,6 +51,18 @@ def set_language(LANG):
     global Skipping_invoice_1_because_it_has_no_date
     if LANG == 'de':
         locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')  # Voraussetzung für Komma bei Zahlen
+        # DE headers of spreadsheet invoices
+        spreadsheet_invoices_headers['invoice']           = 'Rechnung' 
+        spreadsheet_invoices_headers['date_invoice']      = 'Datum Rechnung'
+        spreadsheet_invoices_headers['salutation']        = 'Anrede'
+        spreadsheet_invoices_headers['first_name']        = 'Vorname'
+        spreadsheet_invoices_headers['last_name']         = 'Nachname'
+        spreadsheet_invoices_headers['street']            = 'Straße'
+        spreadsheet_invoices_headers['city']              = 'Stadt'
+        spreadsheet_invoices_headers['physician']         = 'Arzt'
+        spreadsheet_invoices_headers['date_prescription'] = 'Datum Verordnung'
+        spreadsheet_invoices_headers['diagnosis']         = 'Diagnose'
+        # DE user feedback
         Please_leave_only_one_tex_file_here_found= 'Bitte nur eine .tex Vorlage, gefunden'
         Please_leave_only_one_xls_file_here_found= 'Bitte nur eine .xlxs Datei, gefunden'
         Please_store_one_xls_file_here = 'Bitte speichere eine Excel Datei hier'
@@ -42,7 +73,7 @@ def set_language(LANG):
         Skipping_invoice_1_because_it_has_no_date = 'Rechnungsnummer {} übersprungen weil Datum fehlt'
 
 
-print(f"xFaktura 1.0.0 Python {platform.python_version()} {platform.system()} {platform.release()}")
+print(f"xFaktura 1.0.1 Python {platform.python_version()} {platform.system()} {platform.release()}")
 
 
 # Chose TeX Template
@@ -117,9 +148,9 @@ for header in [Exceltabelle_Rechnungen.cell(row=1,column=ccc) for ccc in range(1
     if header.value is not None:
         headersR.append(header.value)
 
-for muss in ['Rechnung', 'Datum Rechnung', 'Anrede', 'Vorname', 'Nachname', 'Straße', 'Stadt', 'Arzt', 'Datum Verordnung', 'Diagnose']: 
-    if muss not in headersR:
-        print(f"{Please_add_the_missing_header} {muss}")
+for _,spreadsheet_invoices_header in spreadsheet_invoices_headers.items():
+    if spreadsheet_invoices_header not in headersR:
+        print(f"{Please_add_the_missing_header} {spreadsheet_invoices_header}")
         print(f"{Found} {headersR}")
         print(Watch_out_for_spaces)
         sys.exit(1)
@@ -133,7 +164,7 @@ aSheet = df_sheets["Behandlungen"]
 #print(f"markus {aSheet.columns.values}")
 
 
-def format_datetime(datum_oder_text):
+def format_datet(datum_oder_text):
     if   type(datum_oder_text) == type(None):                    return ''
     elif type(datum_oder_text) == type(str()):                   return datum_oder_text
     elif type(datum_oder_text) == type(pd.Timestamp.now()):      return datum_oder_text.strftime('%d.%m.%Y')
@@ -156,7 +187,7 @@ def escape_latex_special_characters(in11):
     return out11
 
 
-def format_text(text_oder_float_nan):
+def format_textt(text_oder_float_nan):
     # pandas gibt flot nan als Leere Zelle zurück
     if type(text_oder_float_nan) == type(None): return ''
     elif type(text_oder_float_nan) == type(str()): return escape_latex_special_characters(text_oder_float_nan.rstrip())
@@ -199,36 +230,37 @@ def Diese_Rechnung(Rechnungsnummer):
         return
 
     #print(f'...{Rechnungsnummer}...', end='')
-    Datum_Rechnung        = "fehlt"
-    Anrede                = "fehlt"
-    Vorname               = "fehlt"
-    Nachname              = "fehlt"
-    Straße                = "fehlt"
-    Stadt                 = "fehlt"
-    Arzt                  = None
-    Datum_Verordnung      = None
-    Diagnose              = None
+    date_invoice          = "fehlt"
+    salutation            = "fehlt"
+    first_name            = "fehlt"
+    last_name             = "fehlt"
+    street                = "fehlt"
+    city                  = "fehlt"
+    physician             = None
+    date_prescription     = None
+    diagnosis             = None
     BEHANDLUNGEN          = ''
     RECHNUNGSBETRAG_zahl  = 0
 
     try:
         # Sammele Rechnungsdaten
+        # Select rows where invoice column value equals incoice number given in function
         rechnung_df = df_sheets["Rechnungen"][(df_sheets["Rechnungen"]['Rechnung'] == Rechnungsnummer)]
         if rechnung_df['Rechnung'].size != 1:
             write_error(f'{Rechnungsnummer} steht im Blatt Rechnungen {rechnung_df.size}-fach')
             return
-        Vorname          = format_text(rechnung_df['Vorname'].item())    # LEARN DataFrame Daten sind items
-        Nachname         = format_text(rechnung_df['Nachname'].item())
-        Straße           = format_text(rechnung_df['Straße'].item())
-        Stadt            = format_text(rechnung_df['Stadt'].item())
-        Anrede           = format_text(rechnung_df['Anrede'].item())
-        Diagnose         = format_text(rechnung_df['Diagnose'].item())
-        Arzt             = format_text(rechnung_df['Arzt'].item())
-        Datum_Rechnung   = format_datetime(rechnung_df['Datum Rechnung'].item())
-        Datum_Verordnung = format_datetime(rechnung_df['Datum Verordnung'].item())
+        first_name        = format_textt(rechnung_df[spreadsheet_invoices_headers['first_name']].item())    # LEARN DataFrame Daten sind items
+        last_name         = format_textt(rechnung_df[spreadsheet_invoices_headers['last_name']].item())
+        street            = format_textt(rechnung_df[spreadsheet_invoices_headers['street']].item())
+        city              = format_textt(rechnung_df[spreadsheet_invoices_headers['city']].item())
+        salutation        = format_textt(rechnung_df[spreadsheet_invoices_headers['salutation']].item())
+        diagnosis         = format_textt(rechnung_df[spreadsheet_invoices_headers['diagnosis']].item())
+        physician         = format_textt(rechnung_df[spreadsheet_invoices_headers['physician']].item())
+        date_invoice      = format_datet(rechnung_df[spreadsheet_invoices_headers['date_invoice']].item())
+        date_prescription = format_datet(rechnung_df[spreadsheet_invoices_headers['date_prescription']].item())
 
         # Inspect data -- date naT TODO
-        if len(Datum_Rechnung) < 5:
+        if len(date_invoice) < 5:
             print(Skipping_invoice_1_because_it_has_no_date.format(Rechnungsnummer))
             return
         # Suche Behandlungsarten
@@ -249,7 +281,7 @@ def Diese_Rechnung(Rechnungsnummer):
 
         BEHANDLUNGSTERMINE_list_of_string = []
         for datum_oder_text in behandlungen_df['Behandlung']:
-            BEHANDLUNGSTERMINE_list_of_string.append(format_datetime(datum_oder_text))
+            BEHANDLUNGSTERMINE_list_of_string.append(format_datet(datum_oder_text))
         BEHANDLUNGSTERMINE = ', '.join(BEHANDLUNGSTERMINE_list_of_string)
 
         # Pro Behandlungsart
@@ -289,15 +321,15 @@ def Diese_Rechnung(Rechnungsnummer):
             # Ersetze die Platzhalter
             #         ANZAHL & BEHANDLUNG & EINZELPREIS\,€ & GESAMTPREIS\,€ \\
             line = re.sub(r'\bRECHNUNGSNUMMER\b', Rechnungsnummer, line)
-            line = re.sub(r'\bRECHNUNGSDATUM\b', Datum_Rechnung, line)
-            line = re.sub(r'\bVERORDNUNGSDATUM\b', Datum_Verordnung, line)
-            line = re.sub(r'\bDIAGNOSE\b', Diagnose, line)
-            line = re.sub(r'\bARZT\b', Arzt, line)
-            line = re.sub(r'\bANREDE\b', Anrede, line)
-            line = re.sub(r'\bVORNAME\b', Vorname, line)
-            line = re.sub(r'\bNACHNAME\b', Nachname, line)
-            line = re.sub(r'\bSTRAßE\b', Straße, line)
-            line = re.sub(r'\bSTADT\b', Stadt, line)
+            line = re.sub(r'\bRECHNUNGSDATUM\b', date_invoice, line)
+            line = re.sub(r'\bVERORDNUNGSDATUM\b', date_prescription, line)
+            line = re.sub(r'\bDIAGNOSE\b', diagnosis, line)
+            line = re.sub(r'\bARZT\b', physician, line)
+            line = re.sub(r'\bANREDE\b', salutation, line)
+            line = re.sub(r'\bVORNAME\b', first_name, line)
+            line = re.sub(r'\bNACHNAME\b', last_name, line)
+            line = re.sub(r'\bSTRAßE\b', street, line)
+            line = re.sub(r'\bSTADT\b', city, line)
             line = re.sub(r'\bRECHNUNGSBETRAG\b', RECHNUNGSBETRAG, line)
             line = re.sub(r'ANZAHL & BEHANDLUNG & EINZELPREIS\\,€ & GESAMTPREIS\\,€ \\\\', BEHANDLUNGEN, line)
             line = re.sub(r'\bBEHANDLUNGSTERMINE\b', BEHANDLUNGSTERMINE, line)
@@ -330,7 +362,7 @@ def Diese_Rechnung(Rechnungsnummer):
             if not os.path.isdir(tmpdir):
                 raise
 
-    Basisname_der_Datei = f'{TeXtemplateBasename}-{Rechnungsnummer}-{Nachname}'
+    Basisname_der_Datei = f'{TeXtemplateBasename}-{Rechnungsnummer}-{last_name}'
     pdfdatei =          Basisname_der_Datei + '.pdf'
     texdatei = tmpdir + Basisname_der_Datei + '.tex'
     dvidatei = tmpdir + Basisname_der_Datei + '.dvi'
