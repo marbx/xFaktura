@@ -13,9 +13,9 @@ import collections
 
 
 
-# EN headers of spreadsheet invoices  
+# EN headers of spreadsheet invoices
 spreadsheet_invoices_headers = {}
-spreadsheet_invoices_headers['invoice']           = 'Invoice' 
+spreadsheet_invoices_headers['invoice']           = 'Invoice'
 spreadsheet_invoices_headers['date_invoice']      = 'Date invoice'
 spreadsheet_invoices_headers['salutation']        = 'Salutation'
 spreadsheet_invoices_headers['first_name']        = 'First name'
@@ -52,7 +52,7 @@ def set_language(LANG):
     if LANG == 'de':
         locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')  # Voraussetzung für Komma bei Zahlen
         # DE headers of spreadsheet invoices
-        spreadsheet_invoices_headers['invoice']           = 'Rechnung' 
+        spreadsheet_invoices_headers['invoice']           = 'Rechnung'
         spreadsheet_invoices_headers['date_invoice']      = 'Datum Rechnung'
         spreadsheet_invoices_headers['salutation']        = 'Anrede'
         spreadsheet_invoices_headers['first_name']        = 'Vorname'
@@ -93,7 +93,7 @@ allcap = ''
 allcapDict = {}
 with open(TeXtemplateFile, encoding='utf8') as file:
     for line in file:
-        for char in line: 
+        for char in line:
             if char.isupper() or char in ['ß', '_']:
                 allcap += char
             else:
@@ -120,7 +120,7 @@ else:
     sys.exit(1)
 
 
-# Inspect data 
+# Inspect data
 Exceldatei = load_workbook(xlsFile)
 Exceltabelle_Behandlungen = Exceldatei['Behandlungen']
 Exceltabelle_Rechnungen = Exceldatei['Rechnungen']
@@ -136,7 +136,7 @@ if len(duplicatedB) > 0:
     print(f"{Please_remove_the_duplicated_header} {duplicatedB}")
     sys.exit(1)
 
-for muss in ['Rechnung', 'Behandlung', 'Patient', 'Rechnung']: 
+for muss in ['Rechnung', 'Behandlung', 'Patient', 'Rechnung']:
     if muss not in headersB:
         print(f"{Please_add_the_missing_header} {muss}")
         print(f"{Found} {headersB}")
@@ -378,7 +378,7 @@ def Diese_Rechnung(Rechnungsnummer):
     else:
         pdfbinary = 'lualatex'
     #print(f'{pdfbinary} --interaction=nonstopmode -output-directory={tmpdir} -output-format=dvi {texdatei}')
-    
+
     p = subprocess.run([ pdfbinary, '--interaction=nonstopmode', '-output-directory='+tmpdir, '-output-format=dvi', texdatei ], capture_output=True)
     print( f'{Basisname_der_Datei:<40}     dvi {p.returncode}', end='')
     if p.returncode == 0:
