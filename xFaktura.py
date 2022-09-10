@@ -241,6 +241,10 @@ def Diese_Rechnung(Rechnungsnummer):
     diagnosis             = None
     BEHANDLUNGEN          = ''
     RECHNUNGSBETRAG_zahl  = 0
+    treatements_count = []
+    treatements_name  = []
+    treatements_price = []
+    treatements_sum   = []
 
     try:
         # Sammele Rechnungsdaten
@@ -292,13 +296,14 @@ def Diese_Rechnung(Rechnungsnummer):
                 Anzahl      = df_behandlung.count()
                 Einzelpreis = locale.format_string('%.2f', df_behandlung.mean())
                 Gesamtpreis = locale.format_string('%.2f', df_behandlung.sum())
+                treatements_count.append(str(Anzahl))
+                treatements_name.append(Behandlungsart)
+                treatements_price.append(Einzelpreis)
+                treatements_sum.append(Gesamtpreis)
                 # Das geht durch ein replace,  dafür muß ich \ escapen
                 BEHANDLUNGEN += fr'  {Anzahl} & {Behandlungsart} & {Einzelpreis}\\,€ & {Gesamtpreis}\\,€ \\\\' + '\n'
                 RECHNUNGSBETRAG_zahl += df_behandlung.sum()
         RECHNUNGSBETRAG = locale.format_string('%.2f', RECHNUNGSBETRAG_zahl)
-        # Debug
-        #print(f'{BEHANDLUNGEN=}')
-        #print(f'{RECHNUNGSBETRAG=}')
     except KeyError as exc:
         write_error(f'In Excel fehlt das Blatt oder die Spalte {exc}')
         return
@@ -331,7 +336,18 @@ def Diese_Rechnung(Rechnungsnummer):
             line = re.sub(r'\bSTRAßE\b', street, line)
             line = re.sub(r'\bSTADT\b', city, line)
             line = re.sub(r'\bRECHNUNGSBETRAG\b', RECHNUNGSBETRAG, line)
-            line = re.sub(r'ANZAHL & BEHANDLUNG & EINZELPREIS\\,€ & GESAMTPREIS\\,€ \\\\', BEHANDLUNGEN, line)
+            ###line = re.sub(r'ANZAHL & BEHANDLUNG & EINZELPREIS\\,€ & GESAMTPREIS\\,€ \\\\', BEHANDLUNGEN, line)
+            if 'ANZAHL' in line and 'BEHANDLUNG' in line and 'GESAMTPREIS' in line:
+                line0 = line
+                line2 = ''
+                for idx in range(0, len(treatements_count)):
+                    line1 = line0
+                    line1 = re.sub(r'\bANZAHL\b',      treatements_count[idx],         line1)
+                    line1 = re.sub(r'\bBEHANDLUNG\b',  treatements_name[idx], line1)
+                    line1 = re.sub(r'\bEINZELPREIS\b', treatements_price[idx],    line1)
+                    line1 = re.sub(r'\bGESAMTPREIS\b', treatements_sum[idx],    line1)
+                    line2 += line1
+                line = line2
             line = re.sub(r'\bBEHANDLUNGSTERMINE\b', BEHANDLUNGSTERMINE, line)
 
             # Erstelle Kopie
