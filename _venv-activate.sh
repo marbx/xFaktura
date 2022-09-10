@@ -1,1 +1,1 @@
-source /opt/xFaktura/.venv/bin/activate
+source /opt/xFaktura/xFakturaPythonVenv/bin/activate
