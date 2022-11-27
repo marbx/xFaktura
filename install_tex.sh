@@ -14,10 +14,12 @@ then
     echo See `tlmgr list --only-installed | wc -l` TeXLive packages with tlmgr list --only-installed
 else
     echo TeXLive Manager "tlmgr" not found
+    echo THIS SCRIPT SHOULD RUN  tlmgr THE TEX LIVE MANAGER
+    echo IN tlmgr, PRESS s=Schema, THEN PRESS d=basic !!!!
 fi
 
-echo exiting now, TODO when to install what?
-exit
+#echo exiting now, TODO when to install what?
+#exit
 
 direxists() {
     [ -d "$1" ]
@@ -61,3 +63,5 @@ InstallTlmgrPackages() {
 echo /// installing required packages...
 InstallTlmgrPackages
 
+echo Adding texlive to the command PATH !!!!
+export PATH=/usr/local/texlive/2022/bin/x86_64-linux:$PATH

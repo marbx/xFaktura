@@ -1,3 +1,7 @@
+### Install on Debian requires PATH manipulation!!!
+export PATH=/usr/local/texlive/2022/bin/x86_64-linux:$PATH
+
+
 https://tug.org/mactex/morepackages.html
 
 https://github.com/ronaldoussoren/py2app/
