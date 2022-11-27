@@ -1,5 +1,5 @@
 
-### Installation
+### Installation für Apple
 - Wähle ein Verzeichnis mit einer Excel Datei (.xlsx) und einer Rechnungsvorlage (.tex)
 - Öffne das Archiv [xFaktura.tbz.zip](https://downgit.github.io/#/home?url=https://github.com/marbx/xFaktura/blob/master/xFaktura.tbz)
   - Extrahiere den Befehl `xFaktura` in das Verzeichnis
