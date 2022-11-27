@@ -73,7 +73,7 @@ def set_language(LANG):
         Skipping_invoice_1_because_it_has_no_date = 'Rechnungsnummer {} übersprungen weil Datum fehlt'
 
 
-print(f"xFaktura 1.0.1 Python {platform.python_version()} {platform.system()} {platform.release()}")
+print(f"xFaktura 1.1.0 Python {platform.python_version()} {platform.system()} {platform.release()}")
 
 
 # Chose TeX Template
@@ -250,8 +250,11 @@ def Diese_Rechnung(Rechnungsnummer):
         # Sammele Rechnungsdaten
         # Select rows where invoice column value equals incoice number given in function
         rechnung_df = df_sheets["Rechnungen"][(df_sheets["Rechnungen"]['Rechnung'] == Rechnungsnummer)]
+        if rechnung_df['Rechnung'].size == 0:
+            write_error(f'Rechnungsnummer {Rechnungsnummer} fehlt im Blatt Rechnungen. Sind Leerzeichen am Ende?')
+            return
         if rechnung_df['Rechnung'].size != 1:
-            write_error(f'{Rechnungsnummer} steht im Blatt Rechnungen {rechnung_df.size}-fach')
+            write_error(f'Rechnungsnummer {Rechnungsnummer} gibt es im Blatt Rechnungen {rechnung_df.size}-fach')
             return
         first_name        = format_textt(rechnung_df[spreadsheet_invoices_headers['first_name']].item())    # LEARN DataFrame Daten sind items
         last_name         = format_textt(rechnung_df[spreadsheet_invoices_headers['last_name']].item())
