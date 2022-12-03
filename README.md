@@ -10,7 +10,13 @@
 
 
 ### Screenshots für Linux
+Äußeres Archiv, nur eine Datei
 
+![archive-zip](https://user-images.githubusercontent.com/8489107/205437246-de57d7c5-9474-4a55-b3bf-dbe2348131dd.png)
+
+Inneres Archiv, mehrere Dateien
+
+![archive-tbz](https://user-images.githubusercontent.com/8489107/205437259-b96d6b89-e3f6-4b2b-a69b-aa9157d29139.png)
 
 
 ## Ausführung
