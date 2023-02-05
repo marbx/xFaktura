@@ -1,0 +1,14 @@
+tar cjf archive.tbz singlefile
+c create
+j bzip2
+f file
+
+tar xf archive.tbz
+x extract
+f file
+
+
+
+https://stackoverflow.com/questions/60593486/how-to-distribute-an-application-for-mac-os-so-that-it-can-be-run-by-double-clic
+
+
