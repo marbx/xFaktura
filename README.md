@@ -22,4 +22,8 @@ Inneres Archiv, mehrere Dateien
 
 ## Ausführung
 - Doppelklick auf den Befehl `xFaktura`
+- Bei der ersten Installation:
+  - Control-Klick (oder rechte-Maustaste Klick) auf den Befehl `xFaktura`
+  - Aus dem Menü Öffnen wählen
+  - In dem Fenster Öffnen wählen
 
