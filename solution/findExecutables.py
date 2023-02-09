@@ -6,6 +6,12 @@ import os
 
 def findExecutables():
     operatingSystem = platform.system()
+    def couldbe(fpath):
+        if os.path.isfile(fpath):
+            return fpath
+        else:
+            return None
+
     if operatingSystem == 'Linux':
         lualatex = shutil.which('lualatex')
         dvipdfmx = shutil.which('dvipdfmx')
@@ -20,10 +26,9 @@ def findExecutables():
             print('ERROR    no lualatex or dvipdfmx')
     elif operatingSystem == 'Darwin':
         # Livetex does not install to path, therefore search at known location
-        lualatex = '/Library/TeX/texbin/lualatex'
-        dvipdfmx = '/Library/TeX/texbin/dvipdfmx'
-        if not os.path.isfile(lualatex): lualatex = None
-        if not os.path.isfile(dvipdfmx): dvipdfmx = None
+        lualatex = couldbe('/Library/TeX/texbin/lualatex')
+        dvipdfmx = couldbe('/Library/TeX/texbin/dvipdfmx')
+        # TODO /usr/local/texlive/2022/bin/universal-darwin
     else:
         print('ERROR    system not covered')
 
