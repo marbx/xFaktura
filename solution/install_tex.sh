@@ -28,9 +28,7 @@ direxists() {
 
 if ! [[ -f install-tl-unx.tar.gz ]] && ! [[ -f install-tl-unx.tar ]]; then
     echo /// downloading installer...
-    # TODO curl for macos
-    # curl -O --location  https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
-    wget https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
+    curl -O --location  https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
 fi
 
 
