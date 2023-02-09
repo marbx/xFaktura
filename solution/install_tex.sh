@@ -46,7 +46,7 @@ fi
 # DOCU https://tug.org/texlive/quickinstall.html
 # Installtion macht web-download egal ob schon alles da!
 echo /// installing...
-sudo install-tl-20??????/install-tl --scheme=basic --no-doc-install --no-src-install
+sudo install-tl-20*/install-tl --scheme=basic --no-doc-install --no-src-install
 
 #
 # /usr/local/texlive/YYYY/bin/PLATFORM  in the Pfad !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
