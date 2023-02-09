@@ -393,7 +393,7 @@ def Diese_Rechnung(Rechnungsnummer):
 
     import platform
     if platform.system() == 'Darwin':
-        pdfbinary = '/Library/TeX/texbin/lualatex'   # TODO GIBT ES DAS???????
+        pdfbinary = '/usr/local/texlive/2022/bin/universal-darwin/lualatex'   # TODO CHECK PATH
     else:
         pdfbinary = 'lualatex'
     #print(f'{pdfbinary} --interaction=nonstopmode -output-directory={tmpdir} -output-format=dvi {texdatei}')
@@ -402,7 +402,7 @@ def Diese_Rechnung(Rechnungsnummer):
     print( f'{Basisname_der_Datei:<40}     dvi {p.returncode}', end='')
     if p.returncode == 0:
         if platform.system() == 'Darwin':
-            pdfbinary2 = '/Library/TeX/texbin/dvipdfmx'
+            pdfbinary2 = '/usr/local/texlive/2022/bin/universal-darwin/dvipdfmx'
         else:
             pdfbinary2 = 'dvipdfmx'
         pdf_process = subprocess.run([ pdfbinary2, '-o', pdfdatei, dvidatei ], capture_output=True)
