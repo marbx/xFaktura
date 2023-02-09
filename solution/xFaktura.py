@@ -73,7 +73,7 @@ def set_language(LANG):
         Skipping_invoice_1_because_it_has_no_date = 'Rechnungsnummer {} übersprungen weil Datum fehlt'
 
 
-print(f"xFaktura 1.1.0 Python {platform.python_version()} {platform.system()} {platform.release()}")
+print(f"xFaktura 1.2.0 Python {platform.python_version()} {platform.system()} {platform.release()}")
 
 
 # Chose TeX Template
@@ -393,7 +393,12 @@ def Diese_Rechnung(Rechnungsnummer):
 
     import platform
     if platform.system() == 'Darwin':
-        pdfbinary = '/usr/local/texlive/2022/bin/universal-darwin/lualatex'   # TODO CHECK PATH
+        # TODO hardcoded path
+        if os.path.isfile('/usr/local/texlive/2022/bin/universal-darwin/lualatex'):
+            pdfbinary = '/usr/local/texlive/2022/bin/universal-darwin/lualatex'
+        elif os.path.isfile('/Library/TeX/texbin/lualatex'):
+            pdfbinary = '/Library/TeX/texbin/lualatex'
+        # TODO exit
     else:
         pdfbinary = 'lualatex'
     #print(f'{pdfbinary} --interaction=nonstopmode -output-directory={tmpdir} -output-format=dvi {texdatei}')
@@ -402,7 +407,12 @@ def Diese_Rechnung(Rechnungsnummer):
     print( f'{Basisname_der_Datei:<40}     dvi {p.returncode}', end='')
     if p.returncode == 0:
         if platform.system() == 'Darwin':
-            pdfbinary2 = '/usr/local/texlive/2022/bin/universal-darwin/dvipdfmx'
+            # TODO hardcoded path
+            if os.path.isfile('/usr/local/texlive/2022/bin/universal-darwin/dvipdfmx'):
+                pdfbinary2 = '/usr/local/texlive/2022/bin/universal-darwin/dvipdfmx'
+            elif os.path.isfile('/Library/TeX/texbin/dvipdfmx'):
+                pdfbinary2 = '/Library/TeX/texbin/dvipdfmx'
+            # TODO exit
         else:
             pdfbinary2 = 'dvipdfmx'
         pdf_process = subprocess.run([ pdfbinary2, '-o', pdfdatei, dvidatei ], capture_output=True)
