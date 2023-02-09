@@ -50,7 +50,7 @@ sudo install-tl-20*/install-tl --scheme=basic --no-doc-install --no-src-install
 
 #
 # /usr/local/texlive/YYYY/bin/PLATFORM  in the Pfad !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# ich habe die Optionen O / L gewählt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# I have to select Option O / L  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # TODO do not require user input
 
 InstallTlmgrPackages() {
