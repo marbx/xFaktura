@@ -25,9 +25,10 @@ def findExecutables():
                 dvipdfmx = file
         if operatingSystem == 'Darwin':
             # Livetex does not install to path, therefore search at known location
-            lualatex = couldbe('/Library/TeX/texbin/lualatex')
-            dvipdfmx = couldbe('/Library/TeX/texbin/dvipdfmx')
-            # TODO /usr/local/texlive/2022/bin/universal-darwin
+            if lualatex is None:
+                lualatex = couldbe('/Library/TeX/texbin/lualatex')
+            if dvipdfmx is None:
+                dvipdfmx = couldbe('/Library/TeX/texbin/dvipdfmx')
     else:
         print('ERROR    system not covered')
         sys.exit(1)
