@@ -7,6 +7,7 @@ import datetime
 import os
 import subprocess
 import platform
+import shutil
 import sys
 from openpyxl import load_workbook
 import collections
@@ -73,7 +74,59 @@ def set_language(LANG):
         Skipping_invoice_1_because_it_has_no_date = 'Rechnungsnummer {} übersprungen weil Datum fehlt'
 
 
-print(f"xFaktura 1.2.0 Python {platform.python_version()} {platform.system()} {platform.release()}")
+print(f"xFaktura 1.3.0 Python {platform.python_version()} {platform.system()} {platform.release()}")
+
+
+operatingSystem = platform.system()
+
+def findExecutables():
+    def couldbe(fpath):
+        if os.path.isfile(fpath):
+            return fpath
+        else:
+            return None
+
+    if operatingSystem == 'Linux' or operatingSystem == 'Darwin':
+        lualatex = shutil.which('lualatex')
+        dvipdfmx = shutil.which('dvipdfmx')
+        # Livetex may not install to path, therefore search at known locations
+        if lualatex is None:
+            for file in glob.iglob('/usr/local/texlive/**/bin/**/lualatex', recursive=True):
+                lualatex = file
+        if dvipdfmx is None:
+            for file in glob.iglob('/usr/local/texlive/**/bin/**/dvipdfmx', recursive=True):
+                dvipdfmx = file
+        if operatingSystem == 'Darwin':
+            # Livetex does not install to path, therefore search at known location
+            if lualatex is None:
+                lualatex = couldbe('/Library/TeX/texbin/lualatex')
+            if dvipdfmx is None:
+                dvipdfmx = couldbe('/Library/TeX/texbin/dvipdfmx')
+    else:
+        print('ERROR    system not covered')
+        sys.exit(1)
+    return lualatex, dvipdfmx
+
+
+
+def NullIsOk(returncode):
+    if returncode == 0:
+        return 'OK'
+    else:
+        return returncode
+
+
+
+lualatex, dvipdfmx = findExecutables()
+if lualatex is None or dvipdfmx is None:
+    print('ERROR lualatex missing, please install')
+    sys.exit(2)
+
+print( f'    lualatex   {lualatex}')
+print( f'    dvipdfmx   {dvipdfmx}')
+print( f'')
+
+
 
 
 # Chose TeX Template
@@ -391,36 +444,17 @@ def Diese_Rechnung(Rechnungsnummer):
     with open(texdatei, 'w', encoding='utf8') as fout:
         fout.write(output)
 
-    import platform
-    if platform.system() == 'Darwin':
-        # TODO hardcoded path
-        if os.path.isfile('/usr/local/texlive/2022/bin/universal-darwin/lualatex'):
-            pdfbinary = '/usr/local/texlive/2022/bin/universal-darwin/lualatex'
-        elif os.path.isfile('/Library/TeX/texbin/lualatex'):
-            pdfbinary = '/Library/TeX/texbin/lualatex'
-        # TODO exit
-    else:
-        pdfbinary = 'lualatex'
-    #print(f'{pdfbinary} --interaction=nonstopmode -output-directory={tmpdir} -output-format=dvi {texdatei}')
+    #print(f'{lualatex} --interaction=nonstopmode -output-directory={tmpdir} -output-format=dvi {texdatei}')
 
-    p = subprocess.run([ pdfbinary, '--interaction=nonstopmode', '-output-directory='+tmpdir, '-output-format=dvi', texdatei ], capture_output=True)
-    print( f'{Basisname_der_Datei:<40}     dvi {p.returncode}', end='')
+    p = subprocess.run([ lualatex, '--interaction=nonstopmode', '-output-directory='+tmpdir, '-output-format=dvi', texdatei ], capture_output=True)
+    print( f'{Basisname_der_Datei:<40}     dvi {NullIsOk(p.returncode)}', end='')
     if p.returncode == 0:
-        if platform.system() == 'Darwin':
-            # TODO hardcoded path
-            if os.path.isfile('/usr/local/texlive/2022/bin/universal-darwin/dvipdfmx'):
-                pdfbinary2 = '/usr/local/texlive/2022/bin/universal-darwin/dvipdfmx'
-            elif os.path.isfile('/Library/TeX/texbin/dvipdfmx'):
-                pdfbinary2 = '/Library/TeX/texbin/dvipdfmx'
-            # TODO exit
-        else:
-            pdfbinary2 = 'dvipdfmx'
-        pdf_process = subprocess.run([ pdfbinary2, '-o', pdfdatei, dvidatei ], capture_output=True)
-        print( f'   pdf {pdf_process.returncode}')
+        pdf_process = subprocess.run([ dvipdfmx, '-o', pdfdatei, dvidatei ], capture_output=True)
+        print( f'   pdf {NullIsOk(pdf_process.returncode)}')
         lösche_datei(dvidatei)
         lösche_datei(auxdatei)
-        #lösche_datei(logdatei)
-        #lösche_datei(texdatei)
+        lösche_datei(logdatei)
+        lösche_datei(texdatei)
     else:
         print('')
 
