@@ -10,12 +10,11 @@
   - das Script xFaktura.py
   - der Befehl `xFaktura.command`
   - die Excel Datei .xlsx und die Rechnungsvorlage .tex können umgenannt werden
-
-
-
-### Screenshots 
+- `xFaktura-Upgrade` zip-Datei und Ordner löschen.
 
 Screenshot![image](https://user-images.githubusercontent.com/8489107/218340668-48fb7ad4-fcb4-45bb-aba3-3b12342f5a26.png)
+
+
 
 
 ## Rechnungen erzeugen
