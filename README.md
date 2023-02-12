@@ -12,8 +12,7 @@
   - die Excel Datei .xlsx und die Rechnungsvorlage .tex können umgenannt werden
 - `xFaktura-Upgrade` zip-Datei und Ordner löschen.
 
-Screenshot![image](https://user-images.githubusercontent.com/8489107/218340668-48fb7ad4-fcb4-45bb-aba3-3b12342f5a26.png)
-
+Screenshot![image](https://user-images.githubusercontent.com/8489107/218341316-296eec24-636f-4c45-92a1-6e6209644678.png)
 
 
 
