@@ -1,18 +1,21 @@
-import pandas as pd
-import numpy as np
-import locale
-import re
-import glob
-import datetime
-import os
-import subprocess
-import platform
-import shutil
-import sys
-from openpyxl import load_workbook
 import collections
+import datetime
+import glob
+import locale
+import numpy as np
+import os
+import pandas as pd
+import platform
+import re
+import shutil
+import subprocess
+import sys
+import time
+import watchdog.events
+import watchdog.observers
+from openpyxl import load_workbook
 
-print(f"xFaktura 1.5.0 Python {platform.python_version()} {platform.system()} {platform.release()}")
+print(f"xFaktura 1.6.0, Python {platform.python_version()}, {platform.system()} {platform.release()}")
 
 
 # EN headers of spreadsheet invoices
@@ -123,6 +126,7 @@ try:
 except:
     tex_version = '?'
 print( f'Lualatex {tex_version}')
+print( f'Zum Erzeugen der Rechnungen Excel speichern.')
 print( f'')
 
 
@@ -500,15 +504,36 @@ def Diese_Rechnung(Rechnungsnummer):
 
 
 
+class WatchdogHandlers(watchdog.events.FileSystemEventHandler):
+    def on_modified(self, event):
+        if event.src_path.endswith('.xlsx'):
+            now = datetime.datetime.now().strftime('%H:%M:%S')
+            time.sleep(0.2)
+            fname = re.sub('^\.\/', '', event.src_path)
+            print(f'    {now}    {fname} gespeichert')
+            for rng in Rechnungsnummern:
+                Diese_Rechnung(rng)
+            if Anzahl_pdf_geschrieben == 0 and Anzahl_pdf_nicht_überschrieben > 0:
+                print(f'Alle {Anzahl_pdf_nicht_überschrieben} pdf erhalten')
+            print('')
+
+
+
 ########################################################
 # Main
 ########################################################
 
-for rng in Rechnungsnummern:
-    Diese_Rechnung(rng)
+if __name__ == "__main__":
+    watchdogHandler = WatchdogHandlers()
+    watchdogObserver = watchdog.observers.Observer()
+    watchdogObserver.schedule(watchdogHandler, path='.', recursive=False)
+    watchdogObserver.start()
+
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        watchdogObserver.stop()
+    watchdogObserver.join()
 
 
-if Anzahl_pdf_geschrieben == 0 and Anzahl_pdf_nicht_überschrieben > 0:
-    print(f'Alle {Anzahl_pdf_nicht_überschrieben} pdf sind aktuell')
-
-print('')

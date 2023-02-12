@@ -2,3 +2,4 @@ fpdf
 numpy
 openpyxl
 pandas
+watchdog
