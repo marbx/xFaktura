@@ -18,7 +18,7 @@
 
 chmod 755 xFaktura.command
 
-tar cvfj xFaktura-Archive.tbz Praxis1-Rechnung.tex Praxis1.xlsx xFaktura.command xFaktura.py install_tex.sh install_pip_SIMPLE.sh requirements.txt
+tar cvfj xFaktura-Archive.tbz  xFaktura.command xFaktura.py
 
 echo .TBZ CONTENT
 tar tvf xFaktura-Archive.tbz

@@ -12,6 +12,7 @@ import sys
 from openpyxl import load_workbook
 import collections
 
+print(f"xFaktura 1.5.0 Python {platform.python_version()} {platform.system()} {platform.release()}")
 
 
 # EN headers of spreadsheet invoices
@@ -37,7 +38,6 @@ Please_add_the_missing_header = 'Please add the missing header'
 Found = 'Found'
 Watch_out_for_spaces = 'Watch out for spaces'
 Skipping_invoice_1_because_it_has_no_date = 'Skipping invoice {} because it has no date'
-
 
 
 def set_language(LANG):
@@ -71,10 +71,8 @@ def set_language(LANG):
         Please_add_the_missing_header = 'Bitte ergänze den fehlenden Header'
         Found = 'Gefunden'
         Watch_out_for_spaces = 'Beachte Leerzeichen'
-        Skipping_invoice_1_because_it_has_no_date = 'Rechnungsnummer {} übersprungen weil Datum fehlt'
+        Skipping_invoice_1_because_it_has_no_date = 'Rechnung {} übersprungen weil Datum fehlt'
 
-
-print(f"xFaktura 1.4.0 Python {platform.python_version()} {platform.system()} {platform.release()}")
 
 
 operatingSystem = platform.system()
@@ -109,21 +107,22 @@ def findExecutables():
 
 
 
-def NullIsOk(returncode):
-    if returncode == 0:
-        return 'OK'
-    else:
-        return returncode
-
-
 
 lualatex, dvipdfmx = findExecutables()
 if lualatex is None or dvipdfmx is None:
     print('ERROR lualatex missing, please install')
     sys.exit(2)
 
-print( f'    lualatex   {lualatex}')
-print( f'    dvipdfmx   {dvipdfmx}')
+
+try:
+    tex_process = subprocess.run([ lualatex, '--version' ], capture_output=True)
+    tex_out = tex_process.stdout.decode("utf-8").splitlines()[0]
+    regexMatch = re.search('Version ([\d\.]+ \(TeX Live [\d]+\))', tex_out)
+    if regexMatch:
+        tex_version = regexMatch.group(1)
+except:
+    tex_version = '?'
+print( f'Lualatex {tex_version}')
 print( f'')
 
 
@@ -212,6 +211,7 @@ for _,spreadsheet_invoices_header in spreadsheet_invoices_headers.items():
 # DataFrame ist ein Array aus Sheet, Column, Row. Leere Zellen, auch Text, werden zu float NaN
 df_sheets = pd.read_excel(xlsFile, sheet_name=None)
 Anzahl_pdf_nicht_überschrieben = 0
+Anzahl_pdf_geschrieben = 0
 
 aSheet = df_sheets["Behandlungen"]
 #print(f"markus {aSheet.columns.values}")
@@ -311,6 +311,8 @@ except KeyError as exc:
 
 def Diese_Rechnung(Rechnungsnummer):
     global Anzahl_pdf_nicht_überschrieben
+    global Anzahl_pdf_geschrieben
+
     pdfglob  = f'{TeXtemplateBasename}-{Rechnungsnummer}-*.pdf'
     if len(glob.glob(pdfglob)) > 0:
         #print(f"{pdfglob} nicht überschrieben")
@@ -481,17 +483,20 @@ def Diese_Rechnung(Rechnungsnummer):
 
     #print(f'{lualatex} --interaction=nonstopmode -output-directory={tmpdir} -output-format=dvi {texdatei}')
 
-    p = subprocess.run([ lualatex, '--interaction=nonstopmode', '-output-directory='+tmpdir, '-output-format=dvi', texdatei ], capture_output=True)
-    print( f'{Basisname_der_Datei:<40}     dvi {NullIsOk(p.returncode)}', end='')
-    if p.returncode == 0:
+    tex_process = subprocess.run([ lualatex, '--interaction=nonstopmode', '-output-directory='+tmpdir, '-output-format=dvi', texdatei ], capture_output=True)
+    if tex_process.returncode == 0:
         pdf_process = subprocess.run([ dvipdfmx, '-o', pdfdatei, dvidatei ], capture_output=True)
-        print( f'   pdf {NullIsOk(pdf_process.returncode)}')
-        lösche_datei(dvidatei)
-        lösche_datei(auxdatei)
-        lösche_datei(logdatei)
-        lösche_datei(texdatei)
+        if pdf_process.returncode == 0:
+            lösche_datei(dvidatei)
+            lösche_datei(auxdatei)
+            lösche_datei(logdatei)
+            lösche_datei(texdatei)
+            print( f'    {Basisname_der_Datei}')
+            Anzahl_pdf_geschrieben += 1
+        else:
+            print( f'{Basisname_der_Datei:<50}     pdf error {pdf_process.returncode}')
     else:
-        print('')
+        print( f'{Basisname_der_Datei:<50}     TeX error {tex_process.returncode}')
 
 
 
@@ -502,4 +507,8 @@ def Diese_Rechnung(Rechnungsnummer):
 for rng in Rechnungsnummern:
     Diese_Rechnung(rng)
 
-print(f'{Anzahl_pdf_nicht_überschrieben} pdf Rechungen gefunden')
+
+if Anzahl_pdf_geschrieben == 0 and Anzahl_pdf_nicht_überschrieben > 0:
+    print(f'Alle {Anzahl_pdf_nicht_überschrieben} pdf sind aktuell')
+
+print('')
