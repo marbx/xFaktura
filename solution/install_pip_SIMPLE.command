@@ -5,4 +5,4 @@
 cd -- "$(dirname "$0")"
 pwd
 
-install_pip_SIMPLE.sh
+./install_pip_SIMPLE.sh
