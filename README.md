@@ -7,7 +7,7 @@
 - Doppelklick erzeugt das Verzeichnis xFaktura-Upgrade:
   - Dort den Befehl `install_pip_SIMPLE.command` ausführen (Siehe unten)
 - Verschiebe  alle nötigen Dateien das Arbeitsverzeichnis:
-  - das Script xFaktura.py
+  - das Script `xFaktura.py`
   - der Befehl `xFaktura.command`
   - die Excel Datei .xlsx und die Rechnungsvorlage .tex können umgenannt werden
 - `xFaktura-Upgrade` zip-Datei und Ordner löschen.
@@ -17,7 +17,7 @@ Screenshot![image](https://user-images.githubusercontent.com/8489107/218341316-2
 
 
 ## Rechnungen erzeugen
-- Alle pdf Rechnungen in ein Vercheichnis `Pdf` verschieben.
+- Alle pdf Rechnungen in ein Verzeichnis `Pdf` verschieben.
 - Doppelklick auf den Befehl `xFaktura.command`
 
 
