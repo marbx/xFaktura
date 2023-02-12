@@ -19,7 +19,7 @@
 chmod 755 xFaktura.command
 chmod 755 install_pip_SIMPLE.command
 
-tar cvfj xFaktura-Archive.tbz  xFaktura.command xFaktura.py install_pip_SIMPLE.sh requirements.txt install_pip_SIMPLE.command
+tar cvfj xFaktura-Upgrade.tbz  xFaktura.command xFaktura.py install_pip_SIMPLE.sh requirements.txt install_pip_SIMPLE.command
 
 echo .TBZ CONTENT
-tar tvf xFaktura-Archive.tbz
+tar tvf xFaktura-Upgrade.tbz
