@@ -5,7 +5,7 @@
 chmod 755 xFaktura.command
 
 # tar-Option j means bzip2
-tar cvfj xFaktura-Archive.tbz  Praxis1-Rechnung.tex  Praxis1.xlsx  xFaktura.command  xFaktura.py
+tar cvfj xFaktura-Archive.tbz  xFaktura.command  xFaktura.py
 
-echo test?
+echo WHAT IS INSIDE TBZ
 tar tvf xFaktura-Archive.tbz
