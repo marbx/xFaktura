@@ -74,7 +74,7 @@ def set_language(LANG):
         Skipping_invoice_1_because_it_has_no_date = 'Rechnungsnummer {} übersprungen weil Datum fehlt'
 
 
-print(f"xFaktura 1.3.0 Python {platform.python_version()} {platform.system()} {platform.release()}")
+print(f"xFaktura 1.4.0 Python {platform.python_version()} {platform.system()} {platform.release()}")
 
 
 operatingSystem = platform.system()
@@ -241,7 +241,7 @@ def escape_latex_special_characters(in11):
 
 
 def format_textt(text_oder_float_nan):
-    # pandas gibt flot nan als Leere Zelle zurück
+    # pandas gibt float nan als Leere Zelle zurück
     if type(text_oder_float_nan) == type(None): return ''
     elif type(text_oder_float_nan) == type(str()): return escape_latex_special_characters(text_oder_float_nan.rstrip())
     elif type(text_oder_float_nan) == type(1.0):
@@ -262,14 +262,49 @@ def lösche_datei(datei):
         os.remove(datei)
 
 
+
+def HACKnan(aaa):
+    # TODO learn np.isnan
+    return aaa != aaa
+
+
+
 try:
+    ExcelLine = 2
+    for rechnr in df_sheets["Behandlungen"].Rechnung:
+        #print(f" Zeile {ExcelLine} {rechnr}")
+        if HACKnan(rechnr):
+            print('')
+            print(f"Behandlungen Zeile {ExcelLine} ist leer")
+            print(f"Bitte leere Spalten löschen")
+            sys.exit(1)
+        if not re.match('^20\d\d-\d\d\d$', rechnr):
+            write_error(f'Die Rechnungsnummer "{rechnr}" auf dem Blatt Behandlungen Zeile {ExcelLine} hat nicht das Format 20##-###')
+            print(f"Bitte korrigieren")
+            sys.exit(1)
+        ExcelLine += 1
+
+
+    ExcelLine = 2
+    for rechnr in df_sheets["Rechnungen"].Rechnung:
+        #print(f" Zeile {ExcelLine} {rechnr}")
+        if HACKnan(rechnr):
+            print('')
+            print(f"Rechnungen Zeile {ExcelLine} ist leer")
+            print(f"Bitte leere Spalten löschen")
+            sys.exit(1)
+        if not re.match('^20\d\d-\d\d\d$', rechnr):
+            write_error(f'Die Rechnungsnummer "{rechnr}" auf dem Blatt Rechnungen Zeile {ExcelLine} hat nicht das Format 20##-###')
+            print(f"Bitte korrigieren")
+            sys.exit(1)
+        ExcelLine += 1
+
+
+
     Rechnungsnummern = sorted(df_sheets["Behandlungen"].Rechnung.unique())
     if len(Rechnungsnummern) == 0:
         write_error('Keine Rechnungsnummern')
 
-    for rechnr in Rechnungsnummern:
-        if not re.match('^20\d\d-\d\d\d$', rechnr):
-            write_error(f'Die Rechnungsnummer {rechnr} auf dem Blatt Behandlungen hat nicht das Format 20##-###')
 except KeyError as exc:
     write_error(f'In Excel fehlt das Blatt oder die Spalte {exc}')
 
