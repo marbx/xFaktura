@@ -15,7 +15,7 @@ import watchdog.events
 import watchdog.observers
 from openpyxl import load_workbook
 
-print(f"xFaktura 1.6.0, Python {platform.python_version()}, {platform.system()} {platform.release()}")
+print(f"xFaktura 1.7.0, Python {platform.python_version()}, {platform.system()} {platform.release()}")
 
 
 # EN headers of spreadsheet invoices
@@ -317,7 +317,7 @@ def Diese_Rechnung(Rechnungsnummer):
     global Anzahl_pdf_nicht_überschrieben
     global Anzahl_pdf_geschrieben
 
-    pdfglob  = f'{TeXtemplateBasename}-{Rechnungsnummer}-*.pdf'
+    pdfglob  = f'Pdf/{TeXtemplateBasename}-{Rechnungsnummer}-*.pdf'
     if len(glob.glob(pdfglob)) > 0:
         #print(f"{pdfglob} nicht überschrieben")
         Anzahl_pdf_nicht_überschrieben += 1
@@ -467,16 +467,18 @@ def Diese_Rechnung(Rechnungsnummer):
     import os
     import sys
     if sys.version_info[1] > 4 or (sys.version_info[1] == 4 and sys.version_info[1] >= 1):
-        os.makedirs(tmpdir, exist_ok=True )
+        os.makedirs(tmpdir, exist_ok=True)
+        os.makedirs('Pdf', exist_ok=True)    # Store for pdf
     else:
         try:
             os.makedirs(tmpdir)
+            os.makedirs('Pdf')
         except OSError:
-            if not os.path.isdir(tmpdir):
+            if not os.path.isdir(tmpdir) or not os.path.isdir('Pdf'):
                 raise
 
     Basisname_der_Datei = f'{TeXtemplateBasename}-{Rechnungsnummer}-{last_name}'
-    pdfdatei =          Basisname_der_Datei + '.pdf'
+    pdfdatei = 'Pdf/' + Basisname_der_Datei + '.pdf'
     texdatei = tmpdir + Basisname_der_Datei + '.tex'
     dvidatei = tmpdir + Basisname_der_Datei + '.dvi'
     auxdatei = tmpdir + Basisname_der_Datei + '.aux'
