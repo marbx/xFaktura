@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 # Use Latex-Live, not apt, to install LaTex
 
@@ -6,6 +6,7 @@ if command -v lualatex &> /dev/null
 then
   echo found lualatex `lualatex --version | head -n 1`
   file -b `which lualatex`
+  exit
 fi
 
 
@@ -18,8 +19,8 @@ else
     echo IN tlmgr, PRESS s=Schema, THEN PRESS d=basic !!!!
 fi
 
-#echo exiting now, TODO when to install what?
-#exit
+echo exiting now, TODO when to install what?
+exit
 
 direxists() {
     [ -d "$1" ]
