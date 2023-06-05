@@ -15,7 +15,7 @@ import watchdog.events
 import watchdog.observers
 from openpyxl import load_workbook
 
-print(f"xFaktura 1.7.1, Python {platform.python_version()}, {platform.system()} {platform.release()}")
+print(f"xFaktura 1.7.2, Python {platform.python_version()}, {platform.system()} {platform.release()}")
 
 
 # EN headers of spreadsheet invoices
@@ -278,9 +278,12 @@ def MainReadWrite():
         #quit()
 
 
-    def lösche_datei(datei):
+    def delete_temp_file(datei):
         if os.path.exists(datei):
-            os.remove(datei)
+            try:
+                os.remove(datei)
+            except OSError:
+                pass
 
 
 
@@ -510,10 +513,10 @@ def MainReadWrite():
         if tex_process.returncode == 0:
             pdf_process = subprocess.run([ dvipdfmx, '-o', pdfdatei, dvidatei ], capture_output=True)
             if pdf_process.returncode == 0:
-                lösche_datei(dvidatei)
-                lösche_datei(auxdatei)
-                lösche_datei(logdatei)
-                lösche_datei(texdatei)
+                delete_temp_file(dvidatei)
+                delete_temp_file(auxdatei)
+                delete_temp_file(logdatei)
+                delete_temp_file(texdatei)
                 print( f'    {Basisname_der_Datei}')
                 Anzahl_pdf_geschrieben += 1
             else:
