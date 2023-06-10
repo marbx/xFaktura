@@ -15,7 +15,7 @@ import watchdog.events
 import watchdog.observers
 from openpyxl import load_workbook
 
-print(f"xFaktura 1.7.3, Python {platform.python_version()}, {platform.system()} {platform.release()}")
+print(f"xFaktura 1.7.4, Python {platform.python_version()}, {platform.system()} {platform.release()}")
 
 
 # EN headers of spreadsheet invoices
@@ -181,7 +181,7 @@ def MainReadWrite():
 
     # Chose xls
     xlsFilesX = glob.glob("*.xlsx")
-    # ignore MS Excel temp file ~$
+    # ignore MS Excel temp file ~$ PLACE 1 / 2
     xlsFiles = []
     for xf in xlsFilesX:
         if xf.startswith('~$'):
@@ -542,7 +542,8 @@ def MainReadWrite():
 
 class WatchdogHandlers(watchdog.events.FileSystemEventHandler):
     def on_modified(self, event):
-        if event.src_path.endswith('.xlsx'):
+        # ignore MS Excel temp file ~$ PLACE 2 / 2
+        if event.src_path.endswith('.xlsx') and not '~$' in event.src_path:
             now = datetime.datetime.now().strftime('%H:%M:%S')
             time.sleep(0.2)
             fname = re.sub('^\.\/', '', event.src_path)
