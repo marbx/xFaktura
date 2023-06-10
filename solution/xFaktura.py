@@ -15,7 +15,7 @@ import watchdog.events
 import watchdog.observers
 from openpyxl import load_workbook
 
-print(f"xFaktura 1.7.4, Python {platform.python_version()}, {platform.system()} {platform.release()}")
+print(f"  xFaktura 1.8.0, Python {platform.python_version()}, {platform.system()} {platform.release()}")
 
 
 # EN headers of spreadsheet invoices
@@ -33,6 +33,7 @@ spreadsheet_invoices_headers['diagnosis']         = 'Diagnosis'
 
 
 # EN user feedback
+REFRAIN = '  \033[1;93mZum Erstellen der Rechnungen Excel speichern, zum Erneuern Pdf entfernen.\033[0m\n'
 Please_leave_only_one_tex_file_here_found= 'Please leave only one .tex template, found'
 Please_leave_only_one_xls_file_here_found= 'Please leave only one .xls file, found'
 Please_store_one_xls_file_here = 'Please store one .xls file here'
@@ -40,7 +41,7 @@ Please_remove_the_duplicated_header = 'Please remove the duplicated header'
 Please_add_the_missing_header = 'Please add the missing header'
 Found = 'Found'
 Watch_out_for_spaces = 'Watch out for spaces'
-Skipping_invoice_1_because_it_has_no_date = 'Skipping invoice {} because it has no date'
+Skipping_invoice_1_because_it_has_no_date = '  Skipping invoice {} because it has no date'
 
 
 ########################### GLOBAL
@@ -83,7 +84,7 @@ def set_language(LANG):
         Please_add_the_missing_header = 'Bitte ergänze den fehlenden Header'
         Found = 'Gefunden'
         Watch_out_for_spaces = 'Beachte Leerzeichen'
-        Skipping_invoice_1_because_it_has_no_date = 'Rechnung {} übersprungen weil Datum fehlt'
+        Skipping_invoice_1_because_it_has_no_date = '  Rechnung {} übersprungen weil Datum fehlt'
 
 
 
@@ -134,9 +135,8 @@ try:
         tex_version = regexMatch.group(1)
 except:
     tex_version = '?'
-print( f'Lualatex {tex_version}')
-print( f'Zum Erstellen der Rechnungen Pdf löschen und Excel speichern.')
-print( f'')
+print( f'  Lualatex {tex_version}')
+print(REFRAIN)
 
 
 
@@ -522,7 +522,7 @@ def MainReadWrite():
                 delete_temp_file(auxdatei)
                 delete_temp_file(logdatei)
                 delete_temp_file(texdatei)
-                print( f'    {Basisname_der_Datei}')
+                print( f'{Basisname_der_Datei} erstellt')
                 Anzahl_pdf_geschrieben += 1
             else:
                 print( f'{Basisname_der_Datei:<50}     pdf error {pdf_process.returncode}')
@@ -534,20 +534,20 @@ def MainReadWrite():
     for rng in Rechnungsnummern:
         Diese_Rechnung(rng)
     if Anzahl_pdf_geschrieben == 0 and Anzahl_pdf_nicht_überschrieben > 0:
-        print(f'Alle {Anzahl_pdf_nicht_überschrieben} pdf erhalten')
-    print( f'Zum Erstellen der Rechnungen Pdf löschen und Excel speichern.')
-    print('')
+        if False: print(f'  Alle {Anzahl_pdf_nicht_überschrieben} pdf erhalten')
+    print(REFRAIN)
 
 
 
 class WatchdogHandlers(watchdog.events.FileSystemEventHandler):
     def on_modified(self, event):
+        filename_with_prefix = event.src_path
+        filename_basename = os.path.basename(filename_with_prefix)
         # ignore MS Excel temp file ~$ PLACE 2 / 2
-        if event.src_path.endswith('.xlsx') and not '~$' in event.src_path:
+        if filename_basename.endswith('.xlsx') and not filename_basename.startswith('~$'):
             now = datetime.datetime.now().strftime('%H:%M:%S')
-            time.sleep(0.2)
-            fname = re.sub('^\.\/', '', event.src_path)
-            print(f'    {now}    {fname} gespeichert -- Erstellen der Rechnungen...')
+            #time.sleep(0.2)
+            print(f'  {now}    {filename_basename} gespeichert')
             MainReadWrite()
 
 
