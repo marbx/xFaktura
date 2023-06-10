@@ -1,5 +1,10 @@
 [Zur Webseite](https://marbx.github.io/xFaktura)
 
+## Eigenschaften
+- Zwischen `Rechnung` und `Ausgaben` können beliebig viele Behandlungen stehen, bzw. eingefügt werden.
+- Eine Behandlung kann kann je nach Rechnung unterschiedlich teuer sein;
+- innerhalb einer Rechnung muss eine Behandlung aber denselben Preis haben.
+
 ## MacTex installieren
 MacTex erzeugt das pdf aus der Vorlage.
 Der einfachste Weg es zu installieren ist [dieser](https://tug.org/mactex/mactex-download.html).
