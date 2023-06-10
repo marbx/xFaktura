@@ -184,7 +184,7 @@ def MainReadWrite():
     # ignore MS Excel temp file ~$ PLACE 1 / 2
     xlsFiles = []
     for xf in xlsFilesX:
-        if xf.startswith('~$'):
+        if not xf.startswith('~$'):
             xlsFiles.append(xf)
     if len(xlsFiles) == 2 and 'Praxis1.xlsx' in xlsFiles:
         xlsFiles.remove('Praxis1.xlsx')
