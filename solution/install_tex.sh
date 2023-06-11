@@ -63,6 +63,8 @@ echo /// installingTexLive...
 
 InstallTlmgrPackages() {
     #TODO HACK
+    #SOLUTION instopt_adjustpath (default 0 on Unix, 1 on Windows)     Adjust PATH environment variable.
+    #DOC https://www.tug.org/texlive/doc/install-tl.html
     MARKUS=/usr/local/texlive/2023/bin/universal-darwin/tlmgr
     ## evtl nur Heros https://www.gust.org.pl/projects/e-foundry/tex-gyre
     echo $MARKUS install soulutf8 soul xcolor luatexbase luacode fontspec tex-gyre german babel-german hyphen-german
