@@ -1,0 +1,40 @@
+tlmgr install: package soulutf8 not present in repository.
+tlmgr install: package soulutf8 not present in repository.
+tlmgr install: package soulutf8 not present in repository.
+
+
+EGAL
+
+/usr/local/texlive/2023/bin/universal-darwin/tlmgr install soulutf8 soul xcolor luatexbase luacode fontspec tex-gyre german babel-german hyphen-german
+tlmgr: package repository https://ctan.ebinger.cc/tex-archive/systems/texlive/tlnet (not verified: gpg unavailable)
+tlmgr install: package soulutf8 not present in repository.
+[1/13, ??:??/??:??] install: babel-german [4k]
+[2/13, 00:00/00:00] install: ctablestack [2k]
+[3/13, 00:00/00:00] install: euenc [4k]
+[4/13, 00:01/21:48] install: fontspec [27k]
+[5/13, 00:01/05:12] install: german [7k]
+[6/13, 00:01/04:21] install: hyphen-german [218k]
+[7/13, 00:01/00:41] install: luacode [3k]
+[8/13, 00:01/00:41] install: luatexbase [4k]
+[9/13, 00:01/00:40] install: soul [9k]
+[10/13, 00:02/01:18] install: tex-gyre [7567k]
+[11/13, 00:04/00:05] install: tipa [2809k]
+[12/13, 00:05/00:05] install: xcolor [17k]
+[13/13, 00:05/00:05] install: xunicode [26k]
+tlmgr: action install returned an error; continuing.
+running mktexlsr ...
+done running mktexlsr.
+running updmap-sys ...
+done running updmap-sys.
+regenerating language.dat
+regenerating language.def
+regenerating language.dat.lua
+running fmtutil-sys --byhyphen "/usr/local/texlive/2023/texmf-var/tex/generic/config/language.dat" --no-error-if-no-engine=luametatex,luajithbtex,luajittex,mfluajit --status-file=/tmp/4zdX067Wnw/9EyHM1_RyS ...
+  OK: latex.fmt/pdftex lualatex.fmt/luahbtex dvilualatex.fmt/luatex pdflatex.fmt/pdftex
+running fmtutil-sys --byhyphen "/usr/local/texlive/2023/texmf-var/tex/generic/config/language.def" --no-error-if-no-engine=luametatex,luajithbtex,luajittex,mfluajit --status-file=/tmp/4zdX067Wnw/9EyHM1_RyS ...
+  OK: luahbtex.fmt/luahbtex luatex.fmt/luatex pdftex.fmt/pdftex dviluatex.fmt/luatex etex.fmt/pdftex pdfetex.fmt/pdftex
+running fmtutil-sys --byhyphen "/usr/local/texlive/2023/texmf-var/tex/generic/config/language.dat.lua" --no-error-if-no-engine=luametatex,luajithbtex,luajittex,mfluajit --status-file=/tmp/4zdX067Wnw/9EyHM1_RyS ...
+tlmgr: package log updated: /usr/local/texlive/2023/texmf-var/web2c/tlmgr.log
+tlmgr: command log updated: /usr/local/texlive/2023/texmf-var/web2c/tlmgr-commands.log
+tlmgr: An error has occurred. See above messages. Exiting.
+Adding texlive to the command PATH !!!!

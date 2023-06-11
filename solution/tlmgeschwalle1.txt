@@ -1,0 +1,183 @@
+Installing to: /usr/local/texlive/2023
+Installing [1/4, time/total: ??:??/??:??]: hyphen-base [22k]
+Installing [2/4, time/total: 00:05/01:56]: kpathsea [32k]
+Installing [3/4, time/total: 00:08/01:15]: texlive-scripts [112k]
+Installing [4/4, time/total: 00:10/00:30]: texlive.infra [345k]
+Time used for installing the packages: 00:14
+Installing [001/124, time/total: ??:??/??:??]: ae [57k]
+Installing [002/124, time/total: 00:01/09:10]: amscls [32k]
+Installing [003/124, time/total: 00:02/11:45]: amsfonts [3542k]
+Installing [004/124, time/total: 00:04/00:34]: amsmath [31k]
+Installing [005/124, time/total: 00:05/00:42]: atbegshi [5k]
+Installing [006/124, time/total: 00:09/01:15]: atveryend [4k]
+Installing [007/124, time/total: 00:10/01:24]: auxhook [2k]
+Installing [008/124, time/total: 00:11/01:32]: babel [204k]
+Installing [009/124, time/total: 00:15/01:59]: babel-english [3k]
+Installing [010/124, time/total: 00:19/02:31]: babelbib [27k]
+Installing [011/124, time/total: 00:24/03:09]: bibtex [15k]
+Installing [012/124, time/total: 00:30/03:56]: bibtex.universal-darwin [175k]
+Installing [013/124, time/total: 00:32/04:01]: bigintcalc [7k]
+Installing [014/124, time/total: 00:33/04:08]: bitset [6k]
+Installing [015/124, time/total: 00:36/04:30]: bookmark [9k]
+Installing [016/124, time/total: 00:40/05:00]: carlisle [9k]
+Installing [017/124, time/total: 00:43/05:22]: cm [233k]
+Installing [018/124, time/total: 00:47/05:33]: collection-basic [1k]
+Installing [019/124, time/total: 00:49/05:47]: collection-latex [1k]
+Installing [020/124, time/total: 00:52/06:08]: colorprofiles [86k]
+Installing [021/124, time/total: 00:53/06:08]: colortbl [4k]
+Installing [022/124, time/total: 00:54/06:15]: dehyph [46k]
+Installing [023/124, time/total: 00:57/06:31]: dvipdfmx [27k]
+Installing [024/124, time/total: 00:57/06:29]: dvipdfmx.universal-darwin [781k]
+Installing [025/124, time/total: 00:59/05:43]: dvips [57k]
+Installing [026/124, time/total: 00:59/05:40]: dvips.universal-darwin [290k]
+Installing [027/124, time/total: 01:01/05:33]: ec [258k]
+Installing [028/124, time/total: 01:03/05:29]: enctex [24k]
+Installing [029/124, time/total: 01:07/05:49]: epstopdf-pkg [5k]
+Installing [030/124, time/total: 01:11/06:09]: etex [12k]
+Installing [031/124, time/total: 01:12/06:14]: etex-pkg [6k]
+Installing [032/124, time/total: 01:13/06:19]: etexcmds [3k]
+Installing [033/124, time/total: 01:14/06:24]: everyshi [2k]
+Installing [034/124, time/total: 01:16/06:34]: fancyhdr [6k]
+Installing [035/124, time/total: 01:17/06:39]: firstaid [4k]
+Installing [036/124, time/total: 01:19/06:49]: fix2col [3k]
+Installing [037/124, time/total: 01:20/06:54]: geometry [9k]
+Installing [038/124, time/total: 01:21/06:58]: gettitlestring [3k]
+Installing [039/124, time/total: 01:21/06:58]: glyphlist [25k]
+Installing [040/124, time/total: 01:22/07:02]: graphics [16k]
+Installing [041/124, time/total: 01:22/07:01]: graphics-cfg [2k]
+Installing [042/124, time/total: 01:22/07:00]: graphics-def [11k]
+Installing [043/124, time/total: 01:23/07:05]: grfext [3k]
+Installing [044/124, time/total: 01:25/07:15]: grffile [4k]
+Installing [045/124, time/total: 01:26/07:20]: hopatch [3k]
+Installing [046/124, time/total: 01:28/07:30]: hycolor [4k]
+Installing [047/124, time/total: 01:31/07:45]: hyperref [89k]
+Installing [048/124, time/total: 01:33/07:48]: hyph-utf8 [16k]
+Installing [049/124, time/total: 01:34/07:52]: hyphenex [9k]
+Installing [050/124, time/total: 01:38/08:12]: ifplatform [2k]
+Installing [051/124, time/total: 01:39/08:16]: iftex [4k]
+Installing [052/124, time/total: 01:39/08:16]: infwarerr [3k]
+Installing [053/124, time/total: 01:40/08:21]: intcalc [6k]
+Installing [054/124, time/total: 01:41/08:26]: knuth-lib [30k]
+Installing [055/124, time/total: 01:41/08:23]: knuth-local [23k]
+Installing [056/124, time/total: 01:43/08:31]: kpathsea.universal-darwin [82k]
+Installing [057/124, time/total: 01:44/08:29]: kvdefinekeys [3k]
+Installing [058/124, time/total: 01:48/08:49]: kvoptions [8k]
+Installing [059/124, time/total: 01:49/08:53]: kvsetkeys [4k]
+Installing [060/124, time/total: 01:50/08:58]: l3backend [16k]
+Installing [061/124, time/total: 01:50/08:56]: l3kernel [169k]
+Installing [062/124, time/total: 01:51/08:47]: l3packages [22k]
+Installing [063/124, time/total: 01:53/08:55]: latex [230k]
+Installing [064/124, time/total: 01:54/08:41]: latex-bin [1k]
+Installing [065/124, time/total: 01:54/08:41]: latex-bin.universal-darwin [1k]
+Installing [066/124, time/total: 01:55/08:46]: latex-fonts [18k]
+Installing [067/124, time/total: 01:55/08:44]: latex-lab [34k]
+Installing [068/124, time/total: 01:55/08:42]: latexconfig [4k]
+Installing [069/124, time/total: 01:58/08:55]: letltxmacro [3k]
+Installing [070/124, time/total: 02:00/09:04]: lm [11665k]
+Installing [071/124, time/total: 02:05/03:28]: ltxcmds [5k]
+Installing [072/124, time/total: 02:06/03:30]: ltxmisc [16k]
+Installing [073/124, time/total: 02:06/03:30]: lua-alt-getopt [2k]
+Installing [074/124, time/total: 02:07/03:31]: lua-uni-algos [8k]
+Installing [075/124, time/total: 02:09/03:35]: luahbtex [1k]
+Installing [076/124, time/total: 02:14/03:43]: luahbtex.universal-darwin [3595k]
+Installing [077/124, time/total: 02:19/03:14]: lualibs [129k]
+Installing [078/124, time/total: 02:21/03:15]: luaotfload [603k]
+Installing [079/124, time/total: 02:22/03:12]: luaotfload.universal-darwin [1k]
+Installing [080/124, time/total: 02:25/03:16]: luatex [14k]
+Installing [081/124, time/total: 02:26/03:17]: luatex.universal-darwin [2965k]
+Installing [082/124, time/total: 02:27/02:55]: makeindex [5k]
+Installing [083/124, time/total: 02:27/02:55]: makeindex.universal-darwin [93k]
+Installing [084/124, time/total: 02:28/02:56]: metafont [9k]
+Installing [085/124, time/total: 02:28/02:56]: metafont.universal-darwin [462k]
+Installing [086/124, time/total: 02:29/02:54]: mflogo [2k]
+Installing [087/124, time/total: 02:29/02:54]: mfnfss [3k]
+Installing [088/124, time/total: 02:29/02:54]: mfware [4k]
+Installing [089/124, time/total: 02:30/02:55]: mfware.universal-darwin [243k]
+Installing [090/124, time/total: 02:30/02:53]: modes [27k]
+Installing [091/124, time/total: 02:31/02:54]: mptopdf [37k]
+Installing [092/124, time/total: 02:31/02:54]: mptopdf.universal-darwin [1k]
+Installing [093/124, time/total: 02:31/02:54]: natbib [17k]
+Installing [094/124, time/total: 02:32/02:55]: oberdiek [40k]
+Installing [095/124, time/total: 02:32/02:55]: pagesel [3k]
+Installing [096/124, time/total: 02:32/02:55]: pdfescape [5k]
+Installing [097/124, time/total: 02:32/02:55]: pdftex [39k]
+Installing [098/124, time/total: 02:33/02:56]: pdftex.universal-darwin [1671k]
+Installing [099/124, time/total: 02:34/02:47]: pdftexcmds [7k]
+Installing [100/124, time/total: 02:34/02:46]: plain [29k]
+Installing [101/124, time/total: 02:35/02:47]: pslatex [6k]
+Installing [102/124, time/total: 02:35/02:47]: psnfss [12k]
+Installing [103/124, time/total: 02:35/02:47]: pspicture [2k]
+Installing [104/124, time/total: 02:35/02:47]: refcount [3k]
+Installing [105/124, time/total: 02:36/02:48]: rerunfilecheck [4k]
+Installing [106/124, time/total: 02:36/02:48]: stringenc [23k]
+Installing [107/124, time/total: 02:36/02:48]: symbol [36k]
+Installing [108/124, time/total: 02:36/02:48]: tex [1k]
+Installing [109/124, time/total: 02:37/02:49]: tex-ini-files [4k]
+Installing [110/124, time/total: 02:37/02:49]: tex.universal-darwin [427k]
+Installing [111/124, time/total: 02:38/02:48]: texlive-common [1k]
+Installing [112/124, time/total: 02:38/02:48]: texlive-en [1k]
+Installing [113/124, time/total: 02:39/02:49]: texlive-msg-translations [149k]
+Installing [114/124, time/total: 02:39/02:48]: texlive-scripts.universal-darwin [1k]
+Installing [115/124, time/total: 02:39/02:48]: texlive.infra.universal-darwin [302k]
+Installing [116/124, time/total: 02:40/02:47]: tlshell [33k]
+Installing [117/124, time/total: 02:40/02:47]: tlshell.universal-darwin [1k]
+Installing [118/124, time/total: 02:40/02:47]: tools [43k]
+Installing [119/124, time/total: 02:41/02:48]: unicode-data [302k]
+Installing [120/124, time/total: 02:41/02:46]: uniquecounter [3k]
+Installing [121/124, time/total: 02:41/02:46]: url [6k]
+Installing [122/124, time/total: 02:42/02:47]: xdvi [7k]
+Installing [123/124, time/total: 02:42/02:47]: xdvi.universal-darwin [973k]
+Installing [124/124, time/total: 02:43/02:43]: zapfding [46k]
+Time used for installing the packages: 02:48
+running mktexlsr /usr/local/texlive/2023/texmf-dist ...
+mktexlsr: Updating /usr/local/texlive/2023/texmf-dist/ls-R... 
+mktexlsr: Done.
+writing fmtutil.cnf to /usr/local/texlive/2023/texmf-dist/web2c/fmtutil.cnf
+writing updmap.cfg to /usr/local/texlive/2023/texmf-dist/web2c/updmap.cfg
+writing language.dat to /usr/local/texlive/2023/texmf-var/tex/generic/config/language.dat
+writing language.def to /usr/local/texlive/2023/texmf-var/tex/generic/config/language.def
+writing language.dat.lua to /usr/local/texlive/2023/texmf-var/tex/generic/config/language.dat.lua
+running mktexlsr /usr/local/texlive/2023/texmf-var /usr/local/texlive/2023/texmf-config /usr/local/texlive/2023/texmf-dist ...
+mktexlsr: Updating /usr/local/texlive/2023/texmf-config/ls-R... 
+mktexlsr: Updating /usr/local/texlive/2023/texmf-dist/ls-R... 
+mktexlsr: Updating /usr/local/texlive/2023/texmf-var/ls-R... 
+mktexlsr: Done.
+running updmap-sys --nohash ...done
+re-running mktexlsr /usr/local/texlive/2023/texmf-var /usr/local/texlive/2023/texmf-config ...
+mktexlsr: Updating /usr/local/texlive/2023/texmf-config/ls-R... 
+mktexlsr: Updating /usr/local/texlive/2023/texmf-var/ls-R... 
+mktexlsr: Done.
+pre-generating all format files, be patient...
+running fmtutil-sys --no-error-if-no-engine=luametatex,luajithbtex,luajittex,mfluajit --no-strict --all ...done
+running package-specific postactions
+finished with package-specific postactions
+
+ ----------------------------------------------------------------------
+ The following environment variables contain the string "tex"
+ (case-independent).  If you're doing anything but adding personal
+ directories to the system paths, they may well cause trouble somewhere
+ while running TeX.  If you encounter problems, try unsetting them.
+ 
+ Please ignore spurious matches unrelated to TeX. (To omit this check,
+ set the environment variable TEXLIVE_INSTALL_ENV_NOCHECK.)
+
+    TEXLIVE_INSTALL_NO_DISKCHECK=1
+ ----------------------------------------------------------------------
+
+
+Willkommen bei TeX Live!
+
+
+Schauen Sie in die /usr/local/texlive/2023/index.html für Links auf die Dokumentation.
+Die TeX Live Website (https://tug.org/texlive/) enthält Updates and Korrekturen. TeX Live ist ein vereintes Projekt der TeX Nutzergruppen weltweit, werden Sie Mitglied um ihre Arbeit zu unterstützen. Die Liste der Gruppen finden Sie unter https://tug.org/usergroups.html.
+
+
+Füge /usr/local/texlive/2023/texmf-dist/doc/man zu  MANPATH hinzu.
+Füge /usr/local/texlive/2023/texmf-dist/doc/info zu INFOPATH hinzu.
+Und am wichtigsten: füge  /usr/local/texlive/2023/bin/universal-darwin
+zur PATH Variablen hinzu.
+Logfile: /usr/local/texlive/2023/install-tl.log
+/// installing required packages...
+sudo: tlmgr: command not found
+Adding texlive to the command PATH !!!!
+markus@Markuss-iMac-Pro solution % 
