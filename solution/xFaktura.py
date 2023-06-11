@@ -15,7 +15,7 @@ import watchdog.events
 import watchdog.observers
 from openpyxl import load_workbook
 
-print(f"  xFaktura 1.8.0, Python {platform.python_version()}, {platform.system()} {platform.release()}")
+print(f"  xFaktura 1.9.0, Python {platform.python_version()}, {platform.system()} {platform.release()}")
 
 
 # EN headers of spreadsheet invoices
@@ -139,7 +139,12 @@ print( f'  Lualatex {tex_version}')
 print(REFRAIN)
 
 
-
+def ExcelFilesWithoutTempfiles():
+    # Chose xls
+    xlsFiles = glob.glob("*.xlsx")
+    # ignore MS Excel temp files ~$
+    xlsFiles = [f for f in xlsFiles if not f.startswith('~$')]
+    return xlsFiles
 
 
 def MainReadWrite():
@@ -147,6 +152,17 @@ def MainReadWrite():
     global Anzahl_pdf_nicht_überschrieben
     global Anzahl_pdf_geschrieben
     global aSheet
+
+    # Chose Excel file
+    xlsFiles = ExcelFilesWithoutTempfiles()
+    if len(xlsFiles) == 1:
+        xlsFile = xlsFiles[0]
+    elif len(xlsFiles) == 0:
+        print(f"{Please_store_one_xls_file_here}")
+        return
+    else:
+        print(f"{Please_leave_only_one_xls_file_here_found} {' '.join(xlsFiles)}")
+        return
 
 
     # Chose TeX Template
@@ -177,25 +193,6 @@ def MainReadWrite():
 
     if 'RECHNUNGSNUMMER' in allcapDict:
         set_language('de')
-
-
-    # Chose xls
-    xlsFilesX = glob.glob("*.xlsx")
-    # ignore MS Excel temp file ~$ PLACE 1 / 2
-    xlsFiles = []
-    for xf in xlsFilesX:
-        if not xf.startswith('~$'):
-            xlsFiles.append(xf)
-    if len(xlsFiles) == 2 and 'Praxis1.xlsx' in xlsFiles:
-        xlsFiles.remove('Praxis1.xlsx')
-    if len(xlsFiles) == 1:
-        xlsFile = xlsFiles[0]
-    elif len(xlsFiles) == 0:
-        print(f"{Please_store_one_xls_file_here}")
-        sys.exit(1)
-    else:
-        print(f"{Please_leave_only_one_xls_file_here_found} {xlsFiles}")
-        sys.exit(1)
 
 
     # Inspect data
@@ -543,10 +540,9 @@ class WatchdogHandlers(watchdog.events.FileSystemEventHandler):
     def on_modified(self, event):
         filename_with_prefix = event.src_path
         filename_basename = os.path.basename(filename_with_prefix)
-        # ignore MS Excel temp file ~$ PLACE 2 / 2
+        # Watchdog must ignore MS Excel temp file ~$
         if filename_basename.endswith('.xlsx') and not filename_basename.startswith('~$'):
             now = datetime.datetime.now().strftime('%H:%M:%S')
-            #time.sleep(0.2)
             print(f'  {now}    {filename_basename} gespeichert')
             MainReadWrite()
 
