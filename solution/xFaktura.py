@@ -15,7 +15,7 @@ import watchdog.events
 import watchdog.observers
 from openpyxl import load_workbook
 
-print(f"  xFaktura 1.9.0, Python {platform.python_version()}, {platform.system()} {platform.release()}")
+print(f"  xFaktura 1.10.0, Python {platform.python_version()}, {platform.system()} {platform.release()}")
 
 
 # EN headers of spreadsheet invoices
@@ -31,9 +31,11 @@ spreadsheet_invoices_headers['physician']         = 'Physician'
 spreadsheet_invoices_headers['date_prescription'] = 'Date Prescription'
 spreadsheet_invoices_headers['diagnosis']         = 'Diagnosis'
 
+CLI_YELLOW = '\033[1;93m'
+CLI_NOCOLOR = '\033[0m'
 
 # EN user feedback
-REFRAIN = '  \033[1;93mZum Erstellen der Rechnungen Excel speichern, zum Erneuern Pdf entfernen.\033[0m\n'
+REFRAIN = f'  {CLI_YELLOW}Zum Erstellen der Rechnungen Excel speichern, zum Erneuern Pdf entfernen{CLI_NOCOLOR}\n'
 Please_leave_only_one_tex_file_here_found= 'Please leave only one .tex template, found'
 Please_leave_only_one_xls_file_here_found= 'Please leave only one .xls file, found'
 Please_store_one_xls_file_here = 'Please store one .xls file here'
