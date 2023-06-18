@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-
 # Use Latex-Live, not apt, to install LaTex
+
 
 if command -v lualatex &> /dev/null
 then
@@ -19,11 +19,6 @@ else
     echo This script will now download and install tlmgr, the tex live manager
 fi
 
-
-
-direxists() {
-    [ -d "$1" ]
-}
 
 
 if ! [[ -f install-tl-unx.tar.gz ]]; then
@@ -50,35 +45,15 @@ INSTALLSTRING='sudo install-tl-20*/install-tl  --scheme=basic --no-doc-install -
 # Installtion macht web-download egal ob schon alles da!
 echo /// installing basic TexLive...
 echo $INSTALLSTRING
-#$INSTALLSTRING
+$INSTALLSTRING
 
 echo /// Checking tlmgr version...
 tlmgr version
 
-#echo exiting now
-#exit
-
 
 #
-#DOC https://www.tug.org/texlive/doc/install-tl.html
-## evtl nur Heros https://www.gust.org.pl/projects/e-foundry/tex-gyre
+# DOC https://www.tug.org/texlive/doc/install-tl.html
 echo /// Calling the TeX Live Manager...
-TLMGRSTRING='sudo tlmgr install soul xcolor luatexbase luacode fontspec tex-gyre german babel-german hyphen-german'
+TLMGRSTRING='sudo tlmgr install soul xcolor luatexbase luacode fontspec tex-gyre german babel-german hyphen-german setspace'
 echo $TLMGRSTRING
 $TLMGRSTRING
-
-
-# ERROR tlmgr install: package soulutf8 not present in repository.
-# FIX   soulutf8 --> soul
-
-#TODO ! LaTeX Error: File `luacode.sty' not found.
-
-
-#Schwallereinachinstallation
-#Füge /usr/local/texlive/2023/texmf-dist/doc/man zu  MANPATH hinzu.
-#Füge /usr/local/texlive/2023/texmf-dist/doc/info zu INFOPATH hinzu.
-#Und am wichtigsten: füge  /usr/local/texlive/2023/bin/universal-darwin
-#zur PATH Variablen hinzu.
-
-
-
